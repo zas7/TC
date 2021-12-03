@@ -1,0 +1,351 @@
+<!DOCTYPE HTML>
+<html lang="de">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Copyright 2018-2020 Statistisches Amt des Kantons Zürich</a>
+<span class="sourceLineNo">003</span><a id="line.3"> * </a>
+<span class="sourceLineNo">004</span><a id="line.4"> * Licensed under the Apache License, Version 2.0 (the "License");</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * you may not use this file except in compliance with the License.</a>
+<span class="sourceLineNo">006</span><a id="line.6"> * You may obtain a copy of the License at</a>
+<span class="sourceLineNo">007</span><a id="line.7"> *</a>
+<span class="sourceLineNo">008</span><a id="line.8"> * http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">009</span><a id="line.9"> *</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * Unless required by applicable law or agreed to in writing, software</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * distributed under the License is distributed on an "AS IS" BASIS,</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> * See the License for the specific language governing permissions and</a>
+<span class="sourceLineNo">014</span><a id="line.14"> * limitations under the License.</a>
+<span class="sourceLineNo">015</span><a id="line.15"> */</a>
+<span class="sourceLineNo">016</span><a id="line.16"></a>
+<span class="sourceLineNo">017</span><a id="line.17">package ch.zh.transferclient.processing;</a>
+<span class="sourceLineNo">018</span><a id="line.18"></a>
+<span class="sourceLineNo">019</span><a id="line.19">import java.io.*;</a>
+<span class="sourceLineNo">020</span><a id="line.20"></a>
+<span class="sourceLineNo">021</span><a id="line.21">import java.util.ArrayList;</a>
+<span class="sourceLineNo">022</span><a id="line.22"></a>
+<span class="sourceLineNo">023</span><a id="line.23">import javax.swing.SwingUtilities;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import javax.swing.table.DefaultTableModel;</a>
+<span class="sourceLineNo">025</span><a id="line.25"></a>
+<span class="sourceLineNo">026</span><a id="line.26">import ch.zh.transferclient.gui.*;</a>
+<span class="sourceLineNo">027</span><a id="line.27">import ch.zh.transferclient.properties.Properties;</a>
+<span class="sourceLineNo">028</span><a id="line.28">import ch.zh.transferclient.util.ThreadAnalyzer;</a>
+<span class="sourceLineNo">029</span><a id="line.29"></a>
+<span class="sourceLineNo">030</span><a id="line.30">/**</a>
+<span class="sourceLineNo">031</span><a id="line.31"> * This class is used to update the GUI after an input file has been processed.</a>
+<span class="sourceLineNo">032</span><a id="line.32"> *</a>
+<span class="sourceLineNo">033</span><a id="line.33"> * @author  Daniel Bierer (Statistisches Amt des Kantons Zürich)</a>
+<span class="sourceLineNo">034</span><a id="line.34"> * @version 2.4</a>
+<span class="sourceLineNo">035</span><a id="line.35"> */</a>
+<span class="sourceLineNo">036</span><a id="line.36">public class Processing_SingleInput_GUIUpdate</a>
+<span class="sourceLineNo">037</span><a id="line.37">    </a>
+<span class="sourceLineNo">038</span><a id="line.38">    {</a>
+<span class="sourceLineNo">039</span><a id="line.39">    </a>
+<span class="sourceLineNo">040</span><a id="line.40">    /**</a>
+<span class="sourceLineNo">041</span><a id="line.41">     * Constructs a Processing_SingleInput_GUIUpdate object.</a>
+<span class="sourceLineNo">042</span><a id="line.42">     */</a>
+<span class="sourceLineNo">043</span><a id="line.43">    private Processing_SingleInput_GUIUpdate()</a>
+<span class="sourceLineNo">044</span><a id="line.44">        {</a>
+<span class="sourceLineNo">045</span><a id="line.45">        //https://stackoverflow.com/questions/31409982/java-best-practice-class-with-only-static-methods</a>
+<span class="sourceLineNo">046</span><a id="line.46">        }</a>
+<span class="sourceLineNo">047</span><a id="line.47">    </a>
+<span class="sourceLineNo">048</span><a id="line.48">    </a>
+<span class="sourceLineNo">049</span><a id="line.49">    /**</a>
+<span class="sourceLineNo">050</span><a id="line.50">     * Updates the GUI after an input file has been processed.</a>
+<span class="sourceLineNo">051</span><a id="line.51">     * </a>
+<span class="sourceLineNo">052</span><a id="line.52">     * @param     properties           Properties to be used.</a>
+<span class="sourceLineNo">053</span><a id="line.53">     * @param     gui                  GUI to be used.</a>
+<span class="sourceLineNo">054</span><a id="line.54">     * @param     file                 Input file in question.</a>
+<span class="sourceLineNo">055</span><a id="line.55">     * @param     sedex_message_id     Sedex message id to be used.</a>
+<span class="sourceLineNo">056</span><a id="line.56">     * @exception InterruptedException This exception can be thrown by SwingUtilities.invokeAndWait.</a>
+<span class="sourceLineNo">057</span><a id="line.57">     * @exception                      java.lang.reflect.InvocationTargetException This exception can be thrown by</a>
+<span class="sourceLineNo">058</span><a id="line.58">     *                                 SwingUtilities.invokeAndWait.</a>
+<span class="sourceLineNo">059</span><a id="line.59">     * </a>
+<span class="sourceLineNo">060</span><a id="line.60">     */</a>
+<span class="sourceLineNo">061</span><a id="line.61">    protected synchronized static void process</a>
+<span class="sourceLineNo">062</span><a id="line.62">    /* @formatter:off */</a>
+<span class="sourceLineNo">063</span><a id="line.63">        (</a>
+<span class="sourceLineNo">064</span><a id="line.64">        final Properties properties,</a>
+<span class="sourceLineNo">065</span><a id="line.65">        final Gui gui,</a>
+<span class="sourceLineNo">066</span><a id="line.66">        final File file,</a>
+<span class="sourceLineNo">067</span><a id="line.67">        final String sedex_message_id</a>
+<span class="sourceLineNo">068</span><a id="line.68">        ) throws Exception</a>
+<span class="sourceLineNo">069</span><a id="line.69">    /* @formatter:on */</a>
+<span class="sourceLineNo">070</span><a id="line.70">        </a>
+<span class="sourceLineNo">071</span><a id="line.71">        {</a>
+<span class="sourceLineNo">072</span><a id="line.72">        </a>
+<span class="sourceLineNo">073</span><a id="line.73">        final ArrayList&lt;String&gt; sedex_recipient_ids     = properties.get_sedex_recipient_ids();</a>
+<span class="sourceLineNo">074</span><a id="line.74">        final ArrayList&lt;String&gt; sedex_recipient_labels  = properties.get_sedex_recipient_labels();</a>
+<span class="sourceLineNo">075</span><a id="line.75">        final int               number_of_table_entries = properties.get_number_of_table_entries();</a>
+<span class="sourceLineNo">076</span><a id="line.76">        </a>
+<span class="sourceLineNo">077</span><a id="line.77">        // ---------------------------------------------//</a>
+<span class="sourceLineNo">078</span><a id="line.78">        // GUI-Aktualisierung: Generelle Vorbemerkungen //</a>
+<span class="sourceLineNo">079</span><a id="line.79">        // ---------------------------------------------//</a>
+<span class="sourceLineNo">080</span><a id="line.80">        </a>
+<span class="sourceLineNo">081</span><a id="line.81">        // Kann es bei der Aktualisierung nicht zu Thread-Problemen kommen,</a>
+<span class="sourceLineNo">082</span><a id="line.82">        // da die Protokolle nicht nur beim hier vorliegenden</a>
+<span class="sourceLineNo">083</span><a id="line.83">        // Input-Processing sondern auch beim Receipts-Processing</a>
+<span class="sourceLineNo">084</span><a id="line.84">        // aktualisiert werden? Nein, denn die Protokoll-Aktualisierung</a>
+<span class="sourceLineNo">085</span><a id="line.85">        // erfolgt in beiden Faellen durch ein und denselben Thread,</a>
+<span class="sourceLineNo">086</span><a id="line.86">        // naemlich den EDT-Thread. Die Auftraege an den EDT-Thread</a>
+<span class="sourceLineNo">087</span><a id="line.87">        // werden per FIFO-Queue abgearbeitet.</a>
+<span class="sourceLineNo">088</span><a id="line.88">        </a>
+<span class="sourceLineNo">089</span><a id="line.89">        // Das bedeutet, dass falls zum gegebenen Zeitpunkt noch eine vorgaengige</a>
+<span class="sourceLineNo">090</span><a id="line.90">        // Protokoll-Aktualisierung haengig waere, dass dann diese pendente</a>
+<span class="sourceLineNo">091</span><a id="line.91">        // Aktualisierung zuerst noch abgeschlossen werden wuerde (das trifft auf</a>
+<span class="sourceLineNo">092</span><a id="line.92">        // alle Auftraege zu, die noch in der Event-Queue sind).</a>
+<span class="sourceLineNo">093</span><a id="line.93">        </a>
+<span class="sourceLineNo">094</span><a id="line.94">        // -------------------------------------//</a>
+<span class="sourceLineNo">095</span><a id="line.95">        // GUI-Aktualisierung: Detail-Protokoll //</a>
+<span class="sourceLineNo">096</span><a id="line.96">        // -------------------------------------//</a>
+<span class="sourceLineNo">097</span><a id="line.97">        // Schlaufe ueber alle Empfaenger</a>
+<span class="sourceLineNo">098</span><a id="line.98">        for (int j = sedex_recipient_ids.size() - 1; j &gt;= 0; j--)</a>
+<span class="sourceLineNo">099</span><a id="line.99">            {</a>
+<span class="sourceLineNo">100</span><a id="line.100">            </a>
+<span class="sourceLineNo">101</span><a id="line.101">            // Vorbereitung der Zeile fuer das Detail-Protokoll</a>
+<span class="sourceLineNo">102</span><a id="line.102">            final String[] table_protocol_detail_record = new String[6];</a>
+<span class="sourceLineNo">103</span><a id="line.103">            </a>
+<span class="sourceLineNo">104</span><a id="line.104">            String         receiverid                   = String.valueOf(j);</a>
+<span class="sourceLineNo">105</span><a id="line.105">            </a>
+<span class="sourceLineNo">106</span><a id="line.106">            table_protocol_detail_record[0] = sedex_message_id.substring(20, 22) + ":"</a>
+<span class="sourceLineNo">107</span><a id="line.107">                    + sedex_message_id.substring(22, 24);</a>
+<span class="sourceLineNo">108</span><a id="line.108">            table_protocol_detail_record[1] = file.getName();</a>
+<span class="sourceLineNo">109</span><a id="line.109">            table_protocol_detail_record[2] = sedex_recipient_labels.get(j);</a>
+<span class="sourceLineNo">110</span><a id="line.110">            table_protocol_detail_record[3] = sedex_recipient_ids.get(j);</a>
+<span class="sourceLineNo">111</span><a id="line.111">            table_protocol_detail_record[4] = sedex_message_id + "-E" + receiverid;</a>
+<span class="sourceLineNo">112</span><a id="line.112">            table_protocol_detail_record[5] = "Waiting for receipt ...";</a>
+<span class="sourceLineNo">113</span><a id="line.113">            </a>
+<span class="sourceLineNo">114</span><a id="line.114">            // Der Auftrag an den EDT-Thread wird mit "invokeAndWait" statt "invokeLater"</a>
+<span class="sourceLineNo">115</span><a id="line.115">            // erteilt, um sicherzustellen, dass die GUI-Tabellen auf dem aktuellsten Stand</a>
+<span class="sourceLineNo">116</span><a id="line.116">            // sind, wenn es zur Receipts-Verarbeitung kommt.</a>
+<span class="sourceLineNo">117</span><a id="line.117">            //</a>
+<span class="sourceLineNo">118</span><a id="line.118">            SwingUtilities.invokeAndWait(new Runnable()</a>
+<span class="sourceLineNo">119</span><a id="line.119">                {</a>
+<span class="sourceLineNo">120</span><a id="line.120">                @Override</a>
+<span class="sourceLineNo">121</span><a id="line.121">                public void run()</a>
+<span class="sourceLineNo">122</span><a id="line.122">                    {</a>
+<span class="sourceLineNo">123</span><a id="line.123">                    </a>
+<span class="sourceLineNo">124</span><a id="line.124">                    // Aktualisierung des Detail-Protokolls</a>
+<span class="sourceLineNo">125</span><a id="line.125">                    ThreadAnalyzer.println(Thread.currentThread(), "EventDispatchThread", "Processing Inputs", "Aktualisierung des Detail-Protokolls");</a>
+<span class="sourceLineNo">126</span><a id="line.126">                    </a>
+<span class="sourceLineNo">127</span><a id="line.127">                    DefaultTableModel model = (DefaultTableModel) gui.get_table_protocol_detail().getModel();</a>
+<span class="sourceLineNo">128</span><a id="line.128">                    // model.addRow(table_protocol_zeile); //Auskommentiert am 2019-11-04 und durch</a>
+<span class="sourceLineNo">129</span><a id="line.129">                    // die folgende Zeile ersetzt.</a>
+<span class="sourceLineNo">130</span><a id="line.130">                    </a>
+<span class="sourceLineNo">131</span><a id="line.131">                    // Neue zeilen werden neu oben eingefuegt.</a>
+<span class="sourceLineNo">132</span><a id="line.132">                    // https://stackoverflow.com/questions/44488353/how-to-add-new-rows-at-top-of-the-jtable-and-change-the-color-of-newly-inserted?rq=1</a>
+<span class="sourceLineNo">133</span><a id="line.133">                    model.insertRow(0, table_protocol_detail_record);</a>
+<span class="sourceLineNo">134</span><a id="line.134">                    //model.addRow(table_protocol_detail_record);</a>
+<span class="sourceLineNo">135</span><a id="line.135">                    </a>
+<span class="sourceLineNo">136</span><a id="line.136">                    }</a>
+<span class="sourceLineNo">137</span><a id="line.137">                });</a>
+<span class="sourceLineNo">138</span><a id="line.138">            } // Ende des Loops ueber alle Empfaenger</a>
+<span class="sourceLineNo">139</span><a id="line.139">            </a>
+<span class="sourceLineNo">140</span><a id="line.140">        // ---------------------------------------//</a>
+<span class="sourceLineNo">141</span><a id="line.141">        // GUI-Aktualisierung: Overview-Protokoll //</a>
+<span class="sourceLineNo">142</span><a id="line.142">        // ---------------------------------------//</a>
+<span class="sourceLineNo">143</span><a id="line.143">        </a>
+<span class="sourceLineNo">144</span><a id="line.144">        // Vorbereitung der Zeile fuer das Overview-Protokoll</a>
+<span class="sourceLineNo">145</span><a id="line.145">        final String[] table_protocol_overview_record = new String[4];</a>
+<span class="sourceLineNo">146</span><a id="line.146">        </a>
+<span class="sourceLineNo">147</span><a id="line.147">        table_protocol_overview_record[0] = sedex_message_id.substring(20, 22) + ":"</a>
+<span class="sourceLineNo">148</span><a id="line.148">                + sedex_message_id.substring(22, 24);</a>
+<span class="sourceLineNo">149</span><a id="line.149">        table_protocol_overview_record[1] = file.getName();</a>
+<span class="sourceLineNo">150</span><a id="line.150">        table_protocol_overview_record[2] = sedex_message_id;</a>
+<span class="sourceLineNo">151</span><a id="line.151">        table_protocol_overview_record[3] = "Waiting for receipts ...";</a>
+<span class="sourceLineNo">152</span><a id="line.152">        </a>
+<span class="sourceLineNo">153</span><a id="line.153">        // Der Auftrag an den EDT-Thread wird mit "invokeAndWait" statt "invokeLater"</a>
+<span class="sourceLineNo">154</span><a id="line.154">        // erteilt, um sicherzustellen, dass die GUI-Tabellen auf dem aktuellsten Stand</a>
+<span class="sourceLineNo">155</span><a id="line.155">        // sind, wenn es zur Receipts-Verarbeitung kommt.</a>
+<span class="sourceLineNo">156</span><a id="line.156">        </a>
+<span class="sourceLineNo">157</span><a id="line.157">        SwingUtilities.invokeAndWait(new Runnable()</a>
+<span class="sourceLineNo">158</span><a id="line.158">            {</a>
+<span class="sourceLineNo">159</span><a id="line.159">            @Override</a>
+<span class="sourceLineNo">160</span><a id="line.160">            public void run()</a>
+<span class="sourceLineNo">161</span><a id="line.161">                {</a>
+<span class="sourceLineNo">162</span><a id="line.162">                </a>
+<span class="sourceLineNo">163</span><a id="line.163">                // Aktualisierung des Overview-Protokolls durch</a>
+<span class="sourceLineNo">164</span><a id="line.164">                // Einfuehrung neuer Zeilen.</a>
+<span class="sourceLineNo">165</span><a id="line.165">                </a>
+<span class="sourceLineNo">166</span><a id="line.166">                // Kann das Einfuegen von Zeilen negative Auswirkungen</a>
+<span class="sourceLineNo">167</span><a id="line.167">                // auf die STATUS-Aktualisierung bei der</a>
+<span class="sourceLineNo">168</span><a id="line.168">                // Quittungsverarbeitung (ProcessReceipts) haben?</a>
+<span class="sourceLineNo">169</span><a id="line.169">                // Nein, denn sowohl das Input-Processing wie auch</a>
+<span class="sourceLineNo">170</span><a id="line.170">                // das Receipts-Proecessing wird durch den gleichen</a>
+<span class="sourceLineNo">171</span><a id="line.171">                // Thread (EDT-Thread) erledigt und die Auftraege</a>
+<span class="sourceLineNo">172</span><a id="line.172">                // werden per FIFO-Queue abgearbeitet.</a>
+<span class="sourceLineNo">173</span><a id="line.173">                // Zudem wird mit "invokeAndWait"</a>
+<span class="sourceLineNo">174</span><a id="line.174">                // gearbeitet (vgl. oben).</a>
+<span class="sourceLineNo">175</span><a id="line.175">                </a>
+<span class="sourceLineNo">176</span><a id="line.176">                ThreadAnalyzer.println(Thread.currentThread(), "EventDispatchThread", "Processing Inputs", "Aktualisierung des Overview-Protokolls");</a>
+<span class="sourceLineNo">177</span><a id="line.177">                DefaultTableModel model_overview = (DefaultTableModel) gui.get_table_protocol_overview().getModel();</a>
+<span class="sourceLineNo">178</span><a id="line.178">                model_overview.insertRow(0, table_protocol_overview_record);</a>
+<span class="sourceLineNo">179</span><a id="line.179">                //model_overview.addRow(table_protocol_overview_record);</a>
+<span class="sourceLineNo">180</span><a id="line.180">                </a>
+<span class="sourceLineNo">181</span><a id="line.181">                }</a>
+<span class="sourceLineNo">182</span><a id="line.182">            });</a>
+<span class="sourceLineNo">183</span><a id="line.183">        </a>
+<span class="sourceLineNo">184</span><a id="line.184">        // ---------------------------------------------//</a>
+<span class="sourceLineNo">185</span><a id="line.185">        // GUI-Aktualisierung: Stutzung der Protokolle //</a>
+<span class="sourceLineNo">186</span><a id="line.186">        // ---------------------------------------------//</a>
+<span class="sourceLineNo">187</span><a id="line.187">        </a>
+<span class="sourceLineNo">188</span><a id="line.188">        // Achtung! Nachdem oben neue Zeilen eingefuegt worden sind,</a>
+<span class="sourceLineNo">189</span><a id="line.189">        // muss jetzt ueberprueft werden, ob die Protokolle dadurch nicht</a>
+<span class="sourceLineNo">190</span><a id="line.190">        // zu lang geworden sind. Gegebenenfalls muss eine Stutzung vorgenommen</a>
+<span class="sourceLineNo">191</span><a id="line.191">        // werden, denn Informationen von zu lange zurueckliegenden</a>
+<span class="sourceLineNo">192</span><a id="line.192">        // Dateiuebertragungen werden im Protokoll nicht mehr angezeigt.</a>
+<span class="sourceLineNo">193</span><a id="line.193">        </a>
+<span class="sourceLineNo">194</span><a id="line.194">        // Der Auftrag an den EDT-Thread wird mit "invokeAndWait" statt "invokeLater"</a>
+<span class="sourceLineNo">195</span><a id="line.195">        // erteilt, um sicherzustellen, dass die GUI-Tabellen auf dem aktuellsten Stand</a>
+<span class="sourceLineNo">196</span><a id="line.196">        // sind, wenn es zur Receipts-Verarbeitung kommt.</a>
+<span class="sourceLineNo">197</span><a id="line.197">        SwingUtilities.invokeAndWait(new Runnable()</a>
+<span class="sourceLineNo">198</span><a id="line.198">            {</a>
+<span class="sourceLineNo">199</span><a id="line.199">            @Override</a>
+<span class="sourceLineNo">200</span><a id="line.200">            public void run()</a>
+<span class="sourceLineNo">201</span><a id="line.201">                {</a>
+<span class="sourceLineNo">202</span><a id="line.202">                </a>
+<span class="sourceLineNo">203</span><a id="line.203">                // ------------------------------------------------------//</a>
+<span class="sourceLineNo">204</span><a id="line.204">                // GUI-Aktualisierung: Stutzung des Overview-Protokolls //</a>
+<span class="sourceLineNo">205</span><a id="line.205">                // ------------------------------------------------------//</a>
+<span class="sourceLineNo">206</span><a id="line.206">                DefaultTableModel model_overview = (DefaultTableModel) gui.get_table_protocol_overview().getModel();</a>
+<span class="sourceLineNo">207</span><a id="line.207">                if (model_overview.getRowCount() &gt; number_of_table_entries)</a>
+<span class="sourceLineNo">208</span><a id="line.208">                    {</a>
+<span class="sourceLineNo">209</span><a id="line.209">                    // Bei der folgenden Index-Festlegung muss beachtet werden,</a>
+<span class="sourceLineNo">210</span><a id="line.210">                    // dass die Zaehlung der Zeilen bei 0 beginnt.</a>
+<span class="sourceLineNo">211</span><a id="line.211">                    int index_start = number_of_table_entries;          // Beispiel: 3 Entries: [0], [1],</a>
+<span class="sourceLineNo">212</span><a id="line.212">                    // [2]</a>
+<span class="sourceLineNo">213</span><a id="line.213">                    // koennen</a>
+<span class="sourceLineNo">214</span><a id="line.214">                    // stehenbleiben, d.h. die Loeschung</a>
+<span class="sourceLineNo">215</span><a id="line.215">                    // beginnt</a>
+<span class="sourceLineNo">216</span><a id="line.216">                    // bei [3].</a>
+<span class="sourceLineNo">217</span><a id="line.217">                    int index_ende  = model_overview.getRowCount() - 1; // Beispiel: Count=19: [18] ist der</a>
+<span class="sourceLineNo">218</span><a id="line.218">                    // letzte Index, der geloescht</a>
+<span class="sourceLineNo">219</span><a id="line.219">                    // werden muss.</a>
+<span class="sourceLineNo">220</span><a id="line.220">                    </a>
+<span class="sourceLineNo">221</span><a id="line.221">                    // Wichtige Bemerkung zur folgenden for-Schleife:</a>
+<span class="sourceLineNo">222</span><a id="line.222">                    // Die Stutzung muss von oben nach unten erfolgen, weil</a>
+<span class="sourceLineNo">223</span><a id="line.223">                    // sich sonst bei einer Loeschung die Indizes verschieben wuerden</a>
+<span class="sourceLineNo">224</span><a id="line.224">                    // und versucht werden wuerde, der Wert zu einem Index zu loeschen,</a>
+<span class="sourceLineNo">225</span><a id="line.225">                    // der gar nicht mehr im Modell existiert.</a>
+<span class="sourceLineNo">226</span><a id="line.226">                    </a>
+<span class="sourceLineNo">227</span><a id="line.227">                    // Im vorliegenden spezifischen Fall der Overview-Tabelle wuerde</a>
+<span class="sourceLineNo">228</span><a id="line.228">                    // auch die Entfernung von unten nach oben funktionieren. Dies</a>
+<span class="sourceLineNo">229</span><a id="line.229">                    // deshalb, weil wir uns in einem Loop ueber die Files befinden</a>
+<span class="sourceLineNo">230</span><a id="line.230">                    // und deshalb immer nur eine Ueberschreitung des Maximalwertes</a>
+<span class="sourceLineNo">231</span><a id="line.231">                    // um 1 vorliegt.</a>
+<span class="sourceLineNo">232</span><a id="line.232">                    </a>
+<span class="sourceLineNo">233</span><a id="line.233">                    // Demgegenueber muss das Detail-Protokoll immer von oben nach</a>
+<span class="sourceLineNo">234</span><a id="line.234">                    // unten gestutzt werden.</a>
+<span class="sourceLineNo">235</span><a id="line.235">                    </a>
+<span class="sourceLineNo">236</span><a id="line.236">                    for (int i = index_ende; i &gt;= index_start; i--)</a>
+<span class="sourceLineNo">237</span><a id="line.237">                        {</a>
+<span class="sourceLineNo">238</span><a id="line.238">                        model_overview.removeRow(i);</a>
+<span class="sourceLineNo">239</span><a id="line.239">                        }</a>
+<span class="sourceLineNo">240</span><a id="line.240">                        </a>
+<span class="sourceLineNo">241</span><a id="line.241">                    }</a>
+<span class="sourceLineNo">242</span><a id="line.242">                    </a>
+<span class="sourceLineNo">243</span><a id="line.243">                // ----------------------------------------------------//</a>
+<span class="sourceLineNo">244</span><a id="line.244">                // GUI-Aktualisierung: Stutzung des Detail-Protokolls //</a>
+<span class="sourceLineNo">245</span><a id="line.245">                // ----------------------------------------------------//</a>
+<span class="sourceLineNo">246</span><a id="line.246">                DefaultTableModel model_details = (DefaultTableModel) gui.get_table_protocol_detail().getModel();</a>
+<span class="sourceLineNo">247</span><a id="line.247">                int               max_entries   = number_of_table_entries * sedex_recipient_ids.size();</a>
+<span class="sourceLineNo">248</span><a id="line.248">                </a>
+<span class="sourceLineNo">249</span><a id="line.249">                if (model_details.getRowCount() &gt; max_entries)</a>
+<span class="sourceLineNo">250</span><a id="line.250">                    {</a>
+<span class="sourceLineNo">251</span><a id="line.251">                    // Bei der folgenden Index-Festlegung muss beachtet werden,</a>
+<span class="sourceLineNo">252</span><a id="line.252">                    // dass die Zaehlung der Zeilen bei 0 beginnt.</a>
+<span class="sourceLineNo">253</span><a id="line.253">                    int index_start = max_entries;                     // Beispiel: 3 Entries: [0], [1], [2]</a>
+<span class="sourceLineNo">254</span><a id="line.254">                    // koennen</a>
+<span class="sourceLineNo">255</span><a id="line.255">                    // stehenbleiben, d.h. die Loeschung</a>
+<span class="sourceLineNo">256</span><a id="line.256">                    // beginnt bei [3].</a>
+<span class="sourceLineNo">257</span><a id="line.257">                    int index_ende  = model_details.getRowCount() - 1; // Beispiel: Count=19: [18] ist der</a>
+<span class="sourceLineNo">258</span><a id="line.258">                    // letzte Index, der geloescht</a>
+<span class="sourceLineNo">259</span><a id="line.259">                    // werden muss.</a>
+<span class="sourceLineNo">260</span><a id="line.260">                    </a>
+<span class="sourceLineNo">261</span><a id="line.261">                    // Wichtige Bemerkung zur folgenden for-Schleife:</a>
+<span class="sourceLineNo">262</span><a id="line.262">                    // Die Stutzung muss von oben nach unten erfolgen, weil</a>
+<span class="sourceLineNo">263</span><a id="line.263">                    // sich sonst bei einer Loeschung die Indizes verschieben wuerden</a>
+<span class="sourceLineNo">264</span><a id="line.264">                    // und versucht werden wuerde, der Wert zu einem Index zu loeschen,</a>
+<span class="sourceLineNo">265</span><a id="line.265">                    // der gar nicht mehr im Modell existiert.</a>
+<span class="sourceLineNo">266</span><a id="line.266">                    for (int i = index_ende; i &gt;= index_start; i--)</a>
+<span class="sourceLineNo">267</span><a id="line.267">                        {</a>
+<span class="sourceLineNo">268</span><a id="line.268">                        model_details.removeRow(i);</a>
+<span class="sourceLineNo">269</span><a id="line.269">                        }</a>
+<span class="sourceLineNo">270</span><a id="line.270">                    }</a>
+<span class="sourceLineNo">271</span><a id="line.271">                    </a>
+<span class="sourceLineNo">272</span><a id="line.272">                }</a>
+<span class="sourceLineNo">273</span><a id="line.273">            });</a>
+<span class="sourceLineNo">274</span><a id="line.274">        </a>
+<span class="sourceLineNo">275</span><a id="line.275">        }</a>
+<span class="sourceLineNo">276</span><a id="line.276">        </a>
+<span class="sourceLineNo">277</span><a id="line.277">    }</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>

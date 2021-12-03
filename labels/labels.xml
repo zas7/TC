@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<labels>
+<label>
+<identifier>GUI_JFRAME_TITLE</identifier>
+<de>Transfer-Client</de>
+<fr>Client de transfert</fr>
+<it>Transfer-Client</it>
+<rm></rm>
+</label>
+<label>
+<identifier>GUI_MENU_MENUE</identifier>
+<de>Menü</de>
+<fr>Menu</fr>
+<it>Menù</it>
+<rm></rm>
+</label>
+<label>
+<identifier>GUI_MENU_SUPPORT</identifier>
+<de>Support</de>
+<fr>Support</fr>
+<it>Supporto</it>
+<rm></rm>
+</label>
+<label>
+<identifier>GUI_MENU_TERMINATE</identifier>
+<de>Beenden</de>
+<fr>Terminer</fr>
+<it>Chiudere</it>
+<rm></rm>
+</label>
+<label>
+<identifier>GUI_BUTTON_FOLDER</identifier>
+<de>Ordner mit Resultatefiles wählen</de>
+<fr>Sélectionnez le dossier avec les fichiers de résultats</fr>
+<it>Selezionare la cartella con i file dei risultati</it>
+<rm></rm>
+</label>
+<label>
+<identifier>GUI_BUTTON_ACTIVATION</identifier>
+<de>Aktivierung jetzt</de>
+<fr>Activation</fr>
+<it>Attivare ora</it>
+<rm></rm>
+</label>
+<label>
+<identifier>GUI_BUTTON_AUTOACTIVATION</identifier>
+<de>Autoaktivierung</de>
+<fr>Auto-Activation</fr>
+<it>Attivazione automatica</it>
+<rm></rm>
+</label>
+<label>
+<identifier>GUI_BUTTON_DEACTIVATION</identifier>
+<de>Deaktivierung</de>
+<fr>Désactivation</fr>
+<it>Disattivare</it>
+<rm></rm>
+</label>
+<label>
+<identifier>GUI_TITLE</identifier>
+<de>Transfer-Client</de>
+<fr>Client de transfert</fr>
+<it>Transfer Client</it>
+<rm></rm>
+</label>
+<label>
+<identifier>GUI_TITLEDBORDER_FOLDER</identifier>
+<de>Ordner mit Resultatefiles</de>
+<fr>Dossier avec des fichiers de résultats</fr>
+<it>Cartella contenente i file dei risultati</it>
+<rm></rm>
+</label>
+<label>
+<identifier>GUI_COMBOBOX_AUTOACTIVATION_PART_1</identifier>
+<de>um</de>
+<fr>à</fr>
+<it>alle ore</it>
+<rm></rm>
+</label>
+<label>
+<identifier>GUI_COMBOBOX_AUTOACTIVATION_PART_2</identifier>
+<de>Uhr</de>
+<fr>heures</fr>
+<it></it>
+<rm></rm>
+</label>
+<label>
+<identifier>GUI_TITLEDBORDER_CONTROL</identifier>
+<de>Steuerung</de>
+<fr>Contrôle</fr>
+<it>Controllo</it>
+<rm></rm>
+</label>
+<label>
+<identifier>GUI_TITLEDBORDER_PROTOCOL</identifier>
+<de>Protokoll</de>
+<fr>Procès verbal</fr>
+<it>Riepilogo</it>
+<rm></rm>
+</label>
+<label>
+<identifier>GUI_TABBEDPANE_TAB_OVERVIEW</identifier>
+<de>Übersicht</de>
+<fr>Sommaire</fr>
+<it>Sommario</it>
+<rm></rm>
+</label>
+<label>
+<identifier>GUI_TABBEDPANE_TAB_DETAILS</identifier>
+<de>Details</de>
+<fr>Détails</fr>
+<it>Dettagli</it>
+<rm></rm>
+</label>
+<label>
+<identifier>DIALOG_DIR_TITLE</identifier>
+<de>Hinweis</de>
+<fr>Suggestion</fr>
+<it>Suggerimento</it>
+<rm></rm>
+</label>
+<label>
+<identifier>DIALOG_DIR_TEXT</identifier>
+<de>Es muss zuerst ein Order ausgewählt werden.</de>
+<fr>Sélectionnez d'abord un dossier.</fr>
+<it>Selezionare prima una cartella</it>
+<rm></rm>
+</label>
+<label>
+<identifier>DIALOG_FILEPROCESSINGERROR_TITLE</identifier>
+<de>Hinweis</de>
+<fr>Remarque</fr>
+<it>Suggerimento</it>
+<rm></rm>
+</label>
+<label>
+<identifier>DIALOG_FILEPROCESSINGERROR_TEXT_1</identifier>
+<de>Bei der Verarbeitung einer Datei ist ein Fehler aufgetreten.</de>
+<fr>Une erreur s'est produite lors du traitement d'un fichier.</fr>
+<it>Si è verificato un errore durante lo trattamento di un file.</it>
+<rm></rm>
+</label>
+<label>
+<identifier>DIALOG_FILEPROCESSINGERROR_TEXT_2</identifier>
+<de>Stellen Sie sicher, dass die Datei nicht von einer anderen Applikation geöffnet ist.</de>
+<fr>Assurez-vous que le fichier n'est pas ouvert par une autre application.</fr>
+<it>Assicursi che il file non sia aperto in un'altra applicazione.</it>
+<rm></rm>
+</label>
+<label>
+<identifier>DIALOG_FILEPROCESSINGERROR_TEXT_3</identifier>
+<de>Die Fehlermeldung kann durch Markierung und Ctrl-C kopiert werden.</de>
+<fr>Le message d'erreur peut être copié en marquant et Ctrl-C.</fr>
+<it>Il messaggio di errore può essere selezionato e copiato mediante Ctrl-C.</it>
+<rm></rm>
+</label>
+<label>
+<identifier>DIALOG_RECEIPTNOTWELLFORMED_TITLE</identifier>
+<de>Hinweis</de>
+<fr>Remarque</fr>
+<it>Suggerimento</it>
+<rm></rm>
+</label>
+<label>
+<identifier>DIALOG_RECEIPTNOTWELLFORMED_BUTTON</identifier>
+<de>Programm beenden</de>
+<fr>Fermer le programme</fr>
+<it>Arrestare il programma</it>
+<rm></rm>
+</label>
+<label>
+<identifier>DIALOG_RECEIPTNOTWELLFORMED_TEXT_1</identifier>
+<de>Es ist ein schwerwiegender Fehler aufgetreten:</de>
+<fr>Erreur fatale:</fr>
+<it>Errore irreversibile:</it>
+<rm></rm>
+</label>
+<label>
+<identifier>DIALOG_RECEIPTNOTWELLFORMED_TEXT_2</identifier>
+<de>Das Receipt-File von SEDEX ist nicht wohlgeformt.</de>
+<fr>Le fichier de réception SEDEX n'est pas bien proportionné.</fr>
+<it>Il file di ricezione SEDEX non è ben formattato.</it>
+<rm></rm>
+</label>
+<label>
+<identifier>DIALOG_SUPPORT_TITLE</identifier>
+<de>Support</de>
+<fr>Support</fr>
+<it>Supporto</it>
+<rm></rm>
+</label>
+<label>
+<identifier>DIALOG_SUPPORT_TEXT</identifier>
+<de>Die Kontaktangaben können mit Markierung/Ctrl-C kopiert werden.</de>
+<fr>Les détails du contact peuvent être copiés en marquant et Ctrl-C.</fr>
+<it>I dettagli di contatto possono essere selezionati e copiati mediante Ctrl-C.</it>
+<rm></rm>
+</label>
+<label>
+<identifier>DIALOG_SUPPORT_SEDEX_CONTACT_INFO_1</identifier>
+<de>Technischer Support SEDEX-Client</de>
+<fr>Support technique client sedex</fr>
+<it>Supporto tecnico per l'adattatore SEDEX</it>
+<rm></rm>
+</label>
+<label>
+<identifier>DIALOG_SUPPORT_SEDEX_CONTACT_INFO_2</identifier>
+<de>Bundesamt für Statistik (BFS)</de>
+<fr>Office fédéral de la statistique (OFS)</fr>
+<it>Ufficio federale di statistica (UST)</it>
+<rm></rm>
+</label>
+<label>
+<identifier>DIALOG_SUPPORT_SEDEX_CONTACT_INFO_3</identifier>
+<de>Telefon</de>
+<fr>Téléphone</fr>
+<it>Telefono</it>
+<rm></rm>
+</label>
+<label>
+<identifier>DIALOG_SUPPORT_SEDEX_CONTACT_INFO_4</identifier>
+<de>Email</de>
+<fr>Email</fr>
+<it>E-mail</it>
+<rm></rm>
+</label>
+<label>
+<identifier>DIALOG_SUPPORT_TRANSFERCLIENT_CONTACT_INFO_1</identifier>
+<de>Technischer Support Transfer-Client</de>
+<fr>Support technique client transfert</fr>
+<it>Supporto tecnico Transfer client</it>
+<rm></rm>
+</label>
+<label>
+<identifier>DIALOG_SUPPORT_TRANSFERCLIENT_CONTACT_INFO_2</identifier>
+<de>Statistisches Amt des Kantons Zürich</de>
+<fr>Office cantonal de la statistique Zurich</fr>
+<it>Ufficio di statistica del Cantone di Zurigo</it>
+<rm></rm>
+</label>
+<label>
+<identifier>DIALOG_SUPPORT_TRANSFERCLIENT_CONTACT_INFO_3</identifier>
+<de>Telefon</de>
+<fr>Téléphone</fr>
+<it>Telefono</it>
+<rm></rm>
+</label>
+<label>
+<identifier>DIALOG_SUPPORT_TRANSFERCLIENT_CONTACT_INFO_4</identifier>
+<de>Email</de>
+<fr>Email</fr>
+<it>E-mail</it>
+<rm></rm>
+</label>
+<label>
+<identifier>DIALOG_WAITINGFORDEACTIVATION_TITLE</identifier>
+<de>Hinweis</de>
+<fr>Remarque</fr>
+<it>Suggerimento</it>
+<rm></rm>
+</label>
+<label>
+<identifier>DIALOG_WAITINGFORDEACTIVATION_TEXT</identifier>
+<de>Der Prozess wird beendet ...</de>
+<fr>Le processus se termine ...</fr>
+<it>Arresto del processo in corso ...</it>
+<rm></rm>
+</label>
+<label>
+<identifier>CONTROLLER_ACTIVATION</identifier>
+<de>Der Transfer-Client ist jetzt aktiv.</de>
+<fr>Le client de transfert est maintenant actif.</fr>
+<it>Transfer client è ora attivo.</it>
+<rm></rm>
+</label>
+<label>
+<identifier>CONTROLLER_AUTOACTIVATION_TIMEELEMENT_1</identifier>
+<de>um</de>
+<fr>à</fr>
+<it>alle ore</it>
+<rm></rm>
+</label>
+<label>
+<identifier>CONTROLLER_AUTOACTIVATION_TIMEELEMENT_2</identifier>
+<de>Uhr</de>
+<fr>heures</fr>
+<it></it>
+<rm></rm>
+</label>
+<label>
+<identifier>CONTROLLER_AUTOACTIVATION_TEXTELEMENT_1</identifier>
+<de>Der Transfer-Client wird</de>
+<fr>Le client de transfert sera </fr>
+<it>Transfer client sarà</it>
+<rm></rm>
+</label>
+<label>
+<identifier>CONTROLLER_AUTOACTIVATION_TEXTELEMENT_2</identifier>
+<de>auf aktiv geschaltet.</de>
+<fr>activé.</fr>
+<it>attivato.</it>
+<rm></rm>
+</label>
+<label>
+<identifier>CONTROLLER_DEACTIVATION</identifier>
+<de>Der Transfer-Client ist jetzt inaktiv.</de>
+<fr>Le client de transfert est maintenant desactivé.</fr>
+<it>Transfer client è al momento inattivo.</it>
+<rm></rm>
+</label>
+<label>
+<identifier>FACTORYTABLEPROTOCOL_COLUMN_0</identifier>
+<de>Uhrzeit</de>
+<fr>Heure</fr>
+<it>Ora</it>
+<rm></rm>
+</label>
+<label>
+<identifier>FACTORYTABLEPROTOCOL_COLUMN_1</identifier>
+<de>Übertragene Datei</de>
+<fr>Données diffusées</fr>
+<it>File trasferito</it>
+<rm></rm>
+</label>
+<label>
+<identifier>FACTORYTABLEPROTOCOL_COLUMN_2</identifier>
+<de>Empfänger</de>
+<fr>Destinataire</fr>
+<it>Destinatario</it>
+<rm></rm>
+</label>
+<label>
+<identifier>FACTORYTABLEPROTOCOL_COLUMN_3</identifier>
+<de>ID Empfänger</de>
+<fr>ID Destinataire</fr>
+<it>ID Destinatario</it>
+<rm></rm>
+</label>
+<label>
+<identifier>FACTORYTABLEPROTOCOL_COLUMN_4</identifier>
+<de>ID Message</de>
+<fr>ID Message</fr>
+<it>ID messaggio</it>
+<rm></rm>
+</label>
+<label>
+<identifier>FACTORYTABLEPROTOCOL_COLUMN_5</identifier>
+<de>Status</de>
+<fr>Status</fr>
+<it>Stato</it>
+<rm></rm>
+</label>
+<label>
+<identifier>DIALOG_FILE_LOCKED_MSG</identifier>
+<de>&lt;html&gt;File %s ist geöffnet und verhindert die Übermittlung.&lt;br&gt;&lt;br&gt;Schliessen Sie die entsprechende Applikation (z.B. Excel), damit das File übertragen werden kann.&lt;/html&gt;</de>
+<fr>&lt;html&gt;Le fichier %s est ouvert et empêche la transmission.&lt;br&gt;&lt;br&gt;Fermez l'application correspondante (par ex. Excel) afin que le fichier puisse être transféré.&lt;/html&gt;</fr>
+<it>&lt;html&gt;Il file %s è aperto e impedisce la trasmissione.&lt;br&gt;&lt;br&gt;Chiuda l'applicazione corrispondente (per es. Excel) in modo che il file possa essere trasferito.&lt;/html&gt;</it>
+<rm></rm>
+</label>
+<label>
+<identifier>DIALOG_FILE_LOCKED_TITLE</identifier>
+<de>Übermittlung blockiert</de>
+<fr>Transmission bloqué</fr>
+<it>Trasmissione bloccata</it>
+<rm></rm>
+</label>
+<label>
+<identifier>DIALOG_FILE_INVALID_RECEIPT</identifier>
+<de>&lt;html&gt;File %s ist kein gültiges Quittungsfile.&lt;br&gt;&lt;br&gt;Bitte löschen Sie dieses File.&lt;/html&gt;</de>
+<fr>&lt;html&gt;Le fichier de réception %s n'est pas valide.&lt;br&gt;&lt;br&gt;Veuillez supprimer ce fichier.&lt;/html&gt;</fr>
+<it>&lt;html&gt;Il file di ricezione %s non è valido.&lt;br&gt;&lt;br&gt;Per favore, cancella questo file.&lt;/html&gt;</it>
+<rm></rm>
+</label>
+<label>
+<identifier>DIALOG_FILE_INVALID_RECEIPT_TITLE</identifier>
+<de>Ungültiges Quittungsfile</de>
+<fr>Fichier de réception non valide</fr>
+<it>File di ricezione non valido</it>
+<rm></rm>
+</label>
+</labels>

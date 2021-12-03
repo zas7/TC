@@ -1,0 +1,707 @@
+<!DOCTYPE HTML>
+<html lang="de">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Copyright 2018-2020 Statistisches Amt des Kantons Zürich</a>
+<span class="sourceLineNo">003</span><a id="line.3"> * </a>
+<span class="sourceLineNo">004</span><a id="line.4"> * Licensed under the Apache License, Version 2.0 (the "License");</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * you may not use this file except in compliance with the License.</a>
+<span class="sourceLineNo">006</span><a id="line.6"> * You may obtain a copy of the License at</a>
+<span class="sourceLineNo">007</span><a id="line.7"> *</a>
+<span class="sourceLineNo">008</span><a id="line.8"> * http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">009</span><a id="line.9"> *</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * Unless required by applicable law or agreed to in writing, software</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * distributed under the License is distributed on an "AS IS" BASIS,</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> * See the License for the specific language governing permissions and</a>
+<span class="sourceLineNo">014</span><a id="line.14"> * limitations under the License.</a>
+<span class="sourceLineNo">015</span><a id="line.15"> */</a>
+<span class="sourceLineNo">016</span><a id="line.16"></a>
+<span class="sourceLineNo">017</span><a id="line.17">package ch.zh.transferclient.gui;</a>
+<span class="sourceLineNo">018</span><a id="line.18"></a>
+<span class="sourceLineNo">019</span><a id="line.19">import java.io.*;</a>
+<span class="sourceLineNo">020</span><a id="line.20">import java.util.Locale;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import java.awt.*;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import javax.swing.*;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import javax.swing.border.*;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import javax.swing.table.DefaultTableModel;</a>
+<span class="sourceLineNo">025</span><a id="line.25"></a>
+<span class="sourceLineNo">026</span><a id="line.26">import ch.zh.transferclient.controller.*;</a>
+<span class="sourceLineNo">027</span><a id="line.27">import ch.zh.transferclient.main.*;</a>
+<span class="sourceLineNo">028</span><a id="line.28">import ch.zh.transferclient.properties.*;</a>
+<span class="sourceLineNo">029</span><a id="line.29">import ch.zh.transferclient.properties.Properties.Language;</a>
+<span class="sourceLineNo">030</span><a id="line.30"></a>
+<span class="sourceLineNo">031</span><a id="line.31">/**</a>
+<span class="sourceLineNo">032</span><a id="line.32"> * This class is used to produce a graphical user interface.</a>
+<span class="sourceLineNo">033</span><a id="line.33"> *</a>
+<span class="sourceLineNo">034</span><a id="line.34"> * @author  Daniel Bierer (Statistisches Amt des Kantons Zürich)</a>
+<span class="sourceLineNo">035</span><a id="line.35"> * @version 2.4</a>
+<span class="sourceLineNo">036</span><a id="line.36"> */</a>
+<span class="sourceLineNo">037</span><a id="line.37">public class Gui extends JFrame</a>
+<span class="sourceLineNo">038</span><a id="line.38">    </a>
+<span class="sourceLineNo">039</span><a id="line.39">    {</a>
+<span class="sourceLineNo">040</span><a id="line.40">    </a>
+<span class="sourceLineNo">041</span><a id="line.41">    /** A unique serial version identifier. */</a>
+<span class="sourceLineNo">042</span><a id="line.42">    private static final long            serialVersionUID = 1L;</a>
+<span class="sourceLineNo">043</span><a id="line.43">    </a>
+<span class="sourceLineNo">044</span><a id="line.44">    /** The width of the dialog. */</a>
+<span class="sourceLineNo">045</span><a id="line.45">    public static final int              WIDTH            = 1000;</a>
+<span class="sourceLineNo">046</span><a id="line.46">    </a>
+<span class="sourceLineNo">047</span><a id="line.47">    /** The height of the dialog. */</a>
+<span class="sourceLineNo">048</span><a id="line.48">    public static final int              HEIGHT           = 700;</a>
+<span class="sourceLineNo">049</span><a id="line.49">    </a>
+<span class="sourceLineNo">050</span><a id="line.50">    // --------------//</a>
+<span class="sourceLineNo">051</span><a id="line.51">    // GUI-Elemente //</a>
+<span class="sourceLineNo">052</span><a id="line.52">    // --------------//</a>
+<span class="sourceLineNo">053</span><a id="line.53">    /**</a>
+<span class="sourceLineNo">054</span><a id="line.54">     * The panel which serves as a content pane for the frame of the application.</a>
+<span class="sourceLineNo">055</span><a id="line.55">     */</a>
+<span class="sourceLineNo">056</span><a id="line.56">    private final JPanel                 panel            = new JPanel();</a>
+<span class="sourceLineNo">057</span><a id="line.57">    /** The menu bar. */</a>
+<span class="sourceLineNo">058</span><a id="line.58">    private final JMenuBar               menubar          = new JMenuBar();</a>
+<span class="sourceLineNo">059</span><a id="line.59">    /** The menu. */</a>
+<span class="sourceLineNo">060</span><a id="line.60">    private final JMenu                  menu             = new JMenu(Labels.get("GUI_MENU_MENUE"));</a>
+<span class="sourceLineNo">061</span><a id="line.61">    /** The menu item used for showing contact details for support. */</a>
+<span class="sourceLineNo">062</span><a id="line.62">    private final JMenuItem              menuitem0        = new JMenuItem(Labels.get("GUI_MENU_SUPPORT"));</a>
+<span class="sourceLineNo">063</span><a id="line.63">    /** The menu item used for terminating the application. */</a>
+<span class="sourceLineNo">064</span><a id="line.64">    private final JMenuItem              menuitem1        = new JMenuItem(Labels.get("GUI_MENU_TERMINATE"));</a>
+<span class="sourceLineNo">065</span><a id="line.65">    </a>
+<span class="sourceLineNo">066</span><a id="line.66">    // Auswahl des Ordners</a>
+<span class="sourceLineNo">067</span><a id="line.67">    /** The file chooser used for selecting the result file folder. */</a>
+<span class="sourceLineNo">068</span><a id="line.68">    private final JFileChooser           fc_folder        = new JFileChooser();</a>
+<span class="sourceLineNo">069</span><a id="line.69">    /** The text field that shows the selected result file folder. */</a>
+<span class="sourceLineNo">070</span><a id="line.70">    private final JTextField             textfield_folder;</a>
+<span class="sourceLineNo">071</span><a id="line.71">    /** The button for selecting the result file folder. */</a>
+<span class="sourceLineNo">072</span><a id="line.72">    private final JButton                button_folder;</a>
+<span class="sourceLineNo">073</span><a id="line.73">    </a>
+<span class="sourceLineNo">074</span><a id="line.74">    // Steuerung</a>
+<span class="sourceLineNo">075</span><a id="line.75">    /** The label which indicates the status of the transfer-client. */</a>
+<span class="sourceLineNo">076</span><a id="line.76">    private final JLabel                 label_status;</a>
+<span class="sourceLineNo">077</span><a id="line.77">    /** The button which activates the transfer-client. */</a>
+<span class="sourceLineNo">078</span><a id="line.78">    private final JButton                button_activation;</a>
+<span class="sourceLineNo">079</span><a id="line.79">    /** The button which auto-activates the transfer-client. */</a>
+<span class="sourceLineNo">080</span><a id="line.80">    private final JButton                button_autoactivation;</a>
+<span class="sourceLineNo">081</span><a id="line.81">    /** The button which deactivates the transfer-client. */</a>
+<span class="sourceLineNo">082</span><a id="line.82">    private final JButton                button_deactivation;</a>
+<span class="sourceLineNo">083</span><a id="line.83">    /** The combo box for selecting the target time for the auto-activation. */</a>
+<span class="sourceLineNo">084</span><a id="line.84">    private final JComboBox&lt;String&gt;      combobox_autoactivation;</a>
+<span class="sourceLineNo">085</span><a id="line.85">    </a>
+<span class="sourceLineNo">086</span><a id="line.86">    // Protokoll</a>
+<span class="sourceLineNo">087</span><a id="line.87">    </a>
+<span class="sourceLineNo">088</span><a id="line.88">    /**</a>
+<span class="sourceLineNo">089</span><a id="line.89">     * The table which shows the protocol of the transfers in a summarized manner.</a>
+<span class="sourceLineNo">090</span><a id="line.90">     */</a>
+<span class="sourceLineNo">091</span><a id="line.91">    private final JTable                 table_protocol_overview;                                           // date of</a>
+<span class="sourceLineNo">092</span><a id="line.92">                                                                                                            // introduction:</a>
+<span class="sourceLineNo">093</span><a id="line.93">                                                                                                            // 2019-11-06</a>
+<span class="sourceLineNo">094</span><a id="line.94">    </a>
+<span class="sourceLineNo">095</span><a id="line.95">    /** The table which shows the protocol of the transfers. */</a>
+<span class="sourceLineNo">096</span><a id="line.96">    private final JTable                 table_protocol_detail;</a>
+<span class="sourceLineNo">097</span><a id="line.97">    </a>
+<span class="sourceLineNo">098</span><a id="line.98">    // Dialoge</a>
+<span class="sourceLineNo">099</span><a id="line.99">    </a>
+<span class="sourceLineNo">100</span><a id="line.100">    // Zur Konstruktion der folgenden Dialoge ist eine Referenz auf das GUI-Objekt</a>
+<span class="sourceLineNo">101</span><a id="line.101">    // notwendig.</a>
+<span class="sourceLineNo">102</span><a id="line.102">    // Diese Objekte werden darum erst nach der Konstruktion GUI-Objekts ueber</a>
+<span class="sourceLineNo">103</span><a id="line.103">    // SETTER-Methoden in der Factory-Methode gesetzt (vgl. weiter unten).</a>
+<span class="sourceLineNo">104</span><a id="line.104">    </a>
+<span class="sourceLineNo">105</span><a id="line.105">    /**</a>
+<span class="sourceLineNo">106</span><a id="line.106">     * The dialog which is shown when the user activates the transfer-client without having selected the folder for the</a>
+<span class="sourceLineNo">107</span><a id="line.107">     * result files.</a>
+<span class="sourceLineNo">108</span><a id="line.108">     */</a>
+<span class="sourceLineNo">109</span><a id="line.109">    private DialogDir                    dialog_dir;</a>
+<span class="sourceLineNo">110</span><a id="line.110">    /** The dialog which is shown when an error occurs during the file moving process. */</a>
+<span class="sourceLineNo">111</span><a id="line.111">    private DialogFileProcessingError    dialog_fileprocessingerror;</a>
+<span class="sourceLineNo">112</span><a id="line.112">    /** The dialog which is shown when a receipt file is not well-formed. */</a>
+<span class="sourceLineNo">113</span><a id="line.113">    private DialogReceiptNotWellFormed   dialog_receiptnotwellformed;</a>
+<span class="sourceLineNo">114</span><a id="line.114">    /** The dialog which shows the contact details for support. */</a>
+<span class="sourceLineNo">115</span><a id="line.115">    private DialogSupport                dialog_support;</a>
+<span class="sourceLineNo">116</span><a id="line.116">    /** The dialog which can be shown when the transfer-client will be deactivated. */</a>
+<span class="sourceLineNo">117</span><a id="line.117">    private DialogWaitingForDeactivation dialog_waitingfordeactivation;</a>
+<span class="sourceLineNo">118</span><a id="line.118">    </a>
+<span class="sourceLineNo">119</span><a id="line.119">    // --------------------------//</a>
+<span class="sourceLineNo">120</span><a id="line.120">    // Zugriffsmethoden: GETTERS //</a>
+<span class="sourceLineNo">121</span><a id="line.121">    // --------------------------//</a>
+<span class="sourceLineNo">122</span><a id="line.122">    // @formatter:off</a>
+<span class="sourceLineNo">123</span><a id="line.123">    </a>
+<span class="sourceLineNo">124</span><a id="line.124">    // Menue </a>
+<span class="sourceLineNo">125</span><a id="line.125">    /** @return The reference to the menu bar. */</a>
+<span class="sourceLineNo">126</span><a id="line.126">    public JMenuBar get_menubar()                                        {return this.menubar;}</a>
+<span class="sourceLineNo">127</span><a id="line.127">        </a>
+<span class="sourceLineNo">128</span><a id="line.128">    /** @return The reference to the menu. */</a>
+<span class="sourceLineNo">129</span><a id="line.129">    public JMenu get_menu()                                              {return this.menu;}</a>
+<span class="sourceLineNo">130</span><a id="line.130">        </a>
+<span class="sourceLineNo">131</span><a id="line.131">    /** @return The reference to the support menu item. */</a>
+<span class="sourceLineNo">132</span><a id="line.132">    public JMenuItem get_menuitem0()                                     {return this.menuitem0;}</a>
+<span class="sourceLineNo">133</span><a id="line.133">        </a>
+<span class="sourceLineNo">134</span><a id="line.134">    /** @return The reference to the terminate menu item. */</a>
+<span class="sourceLineNo">135</span><a id="line.135">    public JMenuItem get_menuitem1()                                     {return this.menuitem1;}</a>
+<span class="sourceLineNo">136</span><a id="line.136">        </a>
+<span class="sourceLineNo">137</span><a id="line.137">    // Folder</a>
+<span class="sourceLineNo">138</span><a id="line.138">    /**</a>
+<span class="sourceLineNo">139</span><a id="line.139">     * Shows the open dialog.</a>
+<span class="sourceLineNo">140</span><a id="line.140">     * @return The return state of the filechooser on popdown.</a>
+<span class="sourceLineNo">141</span><a id="line.141">     */</a>
+<span class="sourceLineNo">142</span><a id="line.142">    public int show_opendialog_fc_folder()                               {return this.fc_folder.showOpenDialog(this);}</a>
+<span class="sourceLineNo">143</span><a id="line.143">        </a>
+<span class="sourceLineNo">144</span><a id="line.144">    /** @return The selected file. */</a>
+<span class="sourceLineNo">145</span><a id="line.145">    public File get_selectedfile_fc_folder()                             {return this.fc_folder.getSelectedFile();}</a>
+<span class="sourceLineNo">146</span><a id="line.146">        </a>
+<span class="sourceLineNo">147</span><a id="line.147">    /** @return The button for selecting the result files folder. */</a>
+<span class="sourceLineNo">148</span><a id="line.148">    public JButton get_button_folder()                                   {return this.button_folder;}</a>
+<span class="sourceLineNo">149</span><a id="line.149">        </a>
+<span class="sourceLineNo">150</span><a id="line.150">    /** @return The button for selecting the result files folder. */</a>
+<span class="sourceLineNo">151</span><a id="line.151">    public JTextField get_textfield_folder()                             {return this.textfield_folder;}</a>
+<span class="sourceLineNo">152</span><a id="line.152">        </a>
+<span class="sourceLineNo">153</span><a id="line.153">    // Steuerung </a>
+<span class="sourceLineNo">154</span><a id="line.154">    /** @return Table label status. */</a>
+<span class="sourceLineNo">155</span><a id="line.155">    public JLabel get_label_status()                                     {return this.label_status;}</a>
+<span class="sourceLineNo">156</span><a id="line.156">        </a>
+<span class="sourceLineNo">157</span><a id="line.157">    /** @return Activation button. */</a>
+<span class="sourceLineNo">158</span><a id="line.158">    public JButton get_button_activation()                               {return this.button_activation;}</a>
+<span class="sourceLineNo">159</span><a id="line.159">        </a>
+<span class="sourceLineNo">160</span><a id="line.160">    /** @return Deactivation button. */</a>
+<span class="sourceLineNo">161</span><a id="line.161">    public JButton get_button_deactivation()                             {return this.button_deactivation;}</a>
+<span class="sourceLineNo">162</span><a id="line.162">        </a>
+<span class="sourceLineNo">163</span><a id="line.163">    /** @return Autoactivation button. */</a>
+<span class="sourceLineNo">164</span><a id="line.164">    public JButton get_button_autoactivation()                           {return this.button_autoactivation;}</a>
+<span class="sourceLineNo">165</span><a id="line.165">        </a>
+<span class="sourceLineNo">166</span><a id="line.166">    /** @return Combobox 'Autoactivation'. */</a>
+<span class="sourceLineNo">167</span><a id="line.167">    public JComboBox&lt;String&gt; get_combobox_autoactivation()               {return this.combobox_autoactivation;}</a>
+<span class="sourceLineNo">168</span><a id="line.168">        </a>
+<span class="sourceLineNo">169</span><a id="line.169">    /** @return Table Overview Protocol. */</a>
+<span class="sourceLineNo">170</span><a id="line.170">    public JTable get_table_protocol_overview()                          {return this.table_protocol_overview;}</a>
+<span class="sourceLineNo">171</span><a id="line.171">        </a>
+<span class="sourceLineNo">172</span><a id="line.172">    /** @return Table Detail Protocol. */</a>
+<span class="sourceLineNo">173</span><a id="line.173">    public JTable get_table_protocol_detail()                            {return this.table_protocol_detail;}</a>
+<span class="sourceLineNo">174</span><a id="line.174">        </a>
+<span class="sourceLineNo">175</span><a id="line.175">    // Dialoge </a>
+<span class="sourceLineNo">176</span><a id="line.176">    /** @return Dialog dor directory. */</a>
+<span class="sourceLineNo">177</span><a id="line.177">    public DialogDir get_dialog_dir()                                           {return this.dialog_dir;}</a>
+<span class="sourceLineNo">178</span><a id="line.178">        </a>
+<span class="sourceLineNo">179</span><a id="line.179">    /** @return Dialog for informing about file processing errors. */</a>
+<span class="sourceLineNo">180</span><a id="line.180">    public DialogFileProcessingError get_dialog_fileprocessingerror()           {return this.dialog_fileprocessingerror;}</a>
+<span class="sourceLineNo">181</span><a id="line.181">        </a>
+<span class="sourceLineNo">182</span><a id="line.182">    /** @return Dialog for informing about the fact that the receipt is not well formed. */</a>
+<span class="sourceLineNo">183</span><a id="line.183">    public DialogReceiptNotWellFormed get_dialog_receiptnotwellformed()         {return this.dialog_receiptnotwellformed;}</a>
+<span class="sourceLineNo">184</span><a id="line.184">        </a>
+<span class="sourceLineNo">185</span><a id="line.185">    /** @return Dialog for informing about support services. */</a>
+<span class="sourceLineNo">186</span><a id="line.186">    public DialogSupport get_dialog_support()                                   {return this.dialog_support;}</a>
+<span class="sourceLineNo">187</span><a id="line.187">        </a>
+<span class="sourceLineNo">188</span><a id="line.188">    /** @return Dialog for waiting for deactivation. */</a>
+<span class="sourceLineNo">189</span><a id="line.189">    public DialogWaitingForDeactivation get_dialog_waitingfordeactivation()     {return this.dialog_waitingfordeactivation;}</a>
+<span class="sourceLineNo">190</span><a id="line.190">    </a>
+<span class="sourceLineNo">191</span><a id="line.191">    // -------------------------------------------------------------------------//</a>
+<span class="sourceLineNo">192</span><a id="line.192">    // Zugriffsmethoden: SETTERS</a>
+<span class="sourceLineNo">193</span><a id="line.193">    // Da fuer die Konstruktion der Dialoge eine Referenz auf das GUI-Objekt</a>
+<span class="sourceLineNo">194</span><a id="line.194">    // gebraucht wird, werden diese erst nach der Konstruktion</a>
+<span class="sourceLineNo">195</span><a id="line.195">    // in der Factory-Methode mit den folgenden Setter-Methoden hinzugefuegt.</a>
+<span class="sourceLineNo">196</span><a id="line.196">    // -------------------------------------------------------------------------//</a>
+<span class="sourceLineNo">197</span><a id="line.197">    /** @param dialog Dialog "Directory" to be used. */</a>
+<span class="sourceLineNo">198</span><a id="line.198">    private void set_dialog_dir(DialogDir dialog)                                        {this.dialog_dir = dialog;}</a>
+<span class="sourceLineNo">199</span><a id="line.199">    /** @param dialog Dialog "File Processing Error" to be used. */    </a>
+<span class="sourceLineNo">200</span><a id="line.200">    private void set_dialog_fileprocessingerror(DialogFileProcessingError dialog)        {this.dialog_fileprocessingerror = dialog;}</a>
+<span class="sourceLineNo">201</span><a id="line.201">    /** @param dialog Dialog "Receipt not well formed" to be used. */  </a>
+<span class="sourceLineNo">202</span><a id="line.202">    private void set_dialog_receiptnotwellformed(DialogReceiptNotWellFormed dialog)      {this.dialog_receiptnotwellformed = dialog;}</a>
+<span class="sourceLineNo">203</span><a id="line.203">    /** @param dialog Dialog "Support" to be used. */</a>
+<span class="sourceLineNo">204</span><a id="line.204">    private void set_dialog_support(DialogSupport dialog)                                {this.dialog_support = dialog;}</a>
+<span class="sourceLineNo">205</span><a id="line.205">    /** @param dialog Dialog "Waiting for Deactivation" to be used. */</a>
+<span class="sourceLineNo">206</span><a id="line.206">    private void set_dialog_waitingfordeactivation(DialogWaitingForDeactivation dialog)  {this.dialog_waitingfordeactivation = dialog;}</a>
+<span class="sourceLineNo">207</span><a id="line.207">    </a>
+<span class="sourceLineNo">208</span><a id="line.208">    // @formatter:on</a>
+<span class="sourceLineNo">209</span><a id="line.209">    </a>
+<span class="sourceLineNo">210</span><a id="line.210">    /**</a>
+<span class="sourceLineNo">211</span><a id="line.211">     * Constructs a Gui object.</a>
+<span class="sourceLineNo">212</span><a id="line.212">     * </a>
+<span class="sourceLineNo">213</span><a id="line.213">     * The constructor is private because GUI objects are only offered by the factory method of the GUI class. Why? See</a>
+<span class="sourceLineNo">214</span><a id="line.214">     * the explanations to the factory method below.</a>
+<span class="sourceLineNo">215</span><a id="line.215">     * </a>
+<span class="sourceLineNo">216</span><a id="line.216">     * @param properties Reference of properties object.</a>
+<span class="sourceLineNo">217</span><a id="line.217">     * </a>
+<span class="sourceLineNo">218</span><a id="line.218">     */</a>
+<span class="sourceLineNo">219</span><a id="line.219">    private Gui(Properties properties)</a>
+<span class="sourceLineNo">220</span><a id="line.220">        </a>
+<span class="sourceLineNo">221</span><a id="line.221">        {</a>
+<span class="sourceLineNo">222</span><a id="line.222">        </a>
+<span class="sourceLineNo">223</span><a id="line.223">        super(Labels.get("GUI_JFRAME_TITLE") + " " + Conf.VERSION);</a>
+<span class="sourceLineNo">224</span><a id="line.224">        </a>
+<span class="sourceLineNo">225</span><a id="line.225">        // -----------------------------------------</a>
+<span class="sourceLineNo">226</span><a id="line.226">        // Icon, Frame-Zentrierung, Exit-Operation</a>
+<span class="sourceLineNo">227</span><a id="line.227">        // -----------------------------------------</a>
+<span class="sourceLineNo">228</span><a id="line.228">        this.setIconImage(Conf.IMAGE_FOR_ICON);</a>
+<span class="sourceLineNo">229</span><a id="line.229">        </a>
+<span class="sourceLineNo">230</span><a id="line.230">        // Frame-Zentrierung</a>
+<span class="sourceLineNo">231</span><a id="line.231">        this.setSize(WIDTH, HEIGHT);</a>
+<span class="sourceLineNo">232</span><a id="line.232">        Dimension frameSize  = getSize();</a>
+<span class="sourceLineNo">233</span><a id="line.233">        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();</a>
+<span class="sourceLineNo">234</span><a id="line.234">        int       x          = (screenSize.width - frameSize.width) / 2;</a>
+<span class="sourceLineNo">235</span><a id="line.235">        int       y          = (screenSize.height - frameSize.height) / 2;</a>
+<span class="sourceLineNo">236</span><a id="line.236">        this.setLocation(x, y);</a>
+<span class="sourceLineNo">237</span><a id="line.237">        </a>
+<span class="sourceLineNo">238</span><a id="line.238">        // Exit-Operation definieren</a>
+<span class="sourceLineNo">239</span><a id="line.239">        this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);</a>
+<span class="sourceLineNo">240</span><a id="line.240">        </a>
+<span class="sourceLineNo">241</span><a id="line.241">        this.panel.setBorder(new EmptyBorder(20, 20, 20, 20));</a>
+<span class="sourceLineNo">242</span><a id="line.242">        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));</a>
+<span class="sourceLineNo">243</span><a id="line.243">        </a>
+<span class="sourceLineNo">244</span><a id="line.244">        // --------------------</a>
+<span class="sourceLineNo">245</span><a id="line.245">        // Einrichtung des GUI</a>
+<span class="sourceLineNo">246</span><a id="line.246">        // --------------------</a>
+<span class="sourceLineNo">247</span><a id="line.247">        final Border GREYLINE = BorderFactory.createStrokeBorder(new BasicStroke(3.0f), new Color(173, 173, 173));</a>
+<span class="sourceLineNo">248</span><a id="line.248">        </a>
+<span class="sourceLineNo">249</span><a id="line.249">        // -------------</a>
+<span class="sourceLineNo">250</span><a id="line.250">        // Menue-Balken</a>
+<span class="sourceLineNo">251</span><a id="line.251">        // -------------</a>
+<span class="sourceLineNo">252</span><a id="line.252">        this.menu.add(menuitem0);</a>
+<span class="sourceLineNo">253</span><a id="line.253">        this.menu.add(menuitem1);</a>
+<span class="sourceLineNo">254</span><a id="line.254">        this.menubar.add(menu);</a>
+<span class="sourceLineNo">255</span><a id="line.255">        this.setJMenuBar(menubar);</a>
+<span class="sourceLineNo">256</span><a id="line.256">        </a>
+<span class="sourceLineNo">257</span><a id="line.257">        // ------</a>
+<span class="sourceLineNo">258</span><a id="line.258">        // Title</a>
+<span class="sourceLineNo">259</span><a id="line.259">        // ------</a>
+<span class="sourceLineNo">260</span><a id="line.260">        JPanel panel_title = new JPanel();</a>
+<span class="sourceLineNo">261</span><a id="line.261">        panel_title.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));</a>
+<span class="sourceLineNo">262</span><a id="line.262">        </a>
+<span class="sourceLineNo">263</span><a id="line.263">        JLabel label_titel_bild = new JLabel(Conf.IMAGE_ICON_LOGO);</a>
+<span class="sourceLineNo">264</span><a id="line.264">        </a>
+<span class="sourceLineNo">265</span><a id="line.265">        panel_title.add(label_titel_bild);</a>
+<span class="sourceLineNo">266</span><a id="line.266">        </a>
+<span class="sourceLineNo">267</span><a id="line.267">        JLabel label_titel_text = new JLabel(Labels.get("GUI_TITLE"));</a>
+<span class="sourceLineNo">268</span><a id="line.268">        label_titel_text.setFont(new Font("Sans Serif", Font.BOLD, 26));</a>
+<span class="sourceLineNo">269</span><a id="line.269">        panel_title.add(label_titel_text);</a>
+<span class="sourceLineNo">270</span><a id="line.270">        </a>
+<span class="sourceLineNo">271</span><a id="line.271">        this.panel.add(panel_title);</a>
+<span class="sourceLineNo">272</span><a id="line.272">        </a>
+<span class="sourceLineNo">273</span><a id="line.273">        // -------</a>
+<span class="sourceLineNo">274</span><a id="line.274">        // Folder</a>
+<span class="sourceLineNo">275</span><a id="line.275">        // -------</a>
+<span class="sourceLineNo">276</span><a id="line.276">        // JPanel folder_panel = new JPanel(new FlowLayout(FlowLayout.CENTER,5,5));</a>
+<span class="sourceLineNo">277</span><a id="line.277">        // JPanel folder_panel = new JPanel(new GridLayout(2,1));</a>
+<span class="sourceLineNo">278</span><a id="line.278">        JPanel folder_panel = new JPanel();</a>
+<span class="sourceLineNo">279</span><a id="line.279">        folder_panel.setLayout(new javax.swing.BoxLayout(folder_panel, javax.swing.BoxLayout.Y_AXIS));</a>
+<span class="sourceLineNo">280</span><a id="line.280">        </a>
+<span class="sourceLineNo">281</span><a id="line.281">        // Textfield</a>
+<span class="sourceLineNo">282</span><a id="line.282">        JTextField jtf = new JTextField("", 50);</a>
+<span class="sourceLineNo">283</span><a id="line.283">        jtf.setEditable(false);</a>
+<span class="sourceLineNo">284</span><a id="line.284">        jtf.setBackground(Color.WHITE);</a>
+<span class="sourceLineNo">285</span><a id="line.285">        jtf.setText(properties.get_folder_results());</a>
+<span class="sourceLineNo">286</span><a id="line.286">        JPanel jp_textfield_folder = new JPanel(new FlowLayout(FlowLayout.CENTER, 2, 2));</a>
+<span class="sourceLineNo">287</span><a id="line.287">        jp_textfield_folder.add(jtf);</a>
+<span class="sourceLineNo">288</span><a id="line.288">        folder_panel.add(jp_textfield_folder);</a>
+<span class="sourceLineNo">289</span><a id="line.289">        this.textfield_folder = jtf;</a>
+<span class="sourceLineNo">290</span><a id="line.290">        </a>
+<span class="sourceLineNo">291</span><a id="line.291">        // Button</a>
+<span class="sourceLineNo">292</span><a id="line.292">        JButton jb               = new JButton(Labels.get("GUI_BUTTON_FOLDER"));</a>
+<span class="sourceLineNo">293</span><a id="line.293">        JPanel  jp_button_folder = new JPanel(new FlowLayout(FlowLayout.CENTER, 2, 2));</a>
+<span class="sourceLineNo">294</span><a id="line.294">        jp_button_folder.add(jb);</a>
+<span class="sourceLineNo">295</span><a id="line.295">        folder_panel.add(jp_button_folder);</a>
+<span class="sourceLineNo">296</span><a id="line.296">        this.button_folder = jb;</a>
+<span class="sourceLineNo">297</span><a id="line.297">        </a>
+<span class="sourceLineNo">298</span><a id="line.298">        TitledBorder tb_folder = new TitledBorder(Labels.get("GUI_TITLEDBORDER_FOLDER"));</a>
+<span class="sourceLineNo">299</span><a id="line.299">        tb_folder.setBorder(GREYLINE);</a>
+<span class="sourceLineNo">300</span><a id="line.300">        </a>
+<span class="sourceLineNo">301</span><a id="line.301">        // folder_panel.setBorder(new CompoundBorder(tb_folder,new</a>
+<span class="sourceLineNo">302</span><a id="line.302">        // EmptyBorder(20,20,40,20)));</a>
+<span class="sourceLineNo">303</span><a id="line.303">        folder_panel.setBorder(new CompoundBorder(tb_folder, new EmptyBorder(20, 20, 20, 20)));</a>
+<span class="sourceLineNo">304</span><a id="line.304">        this.panel.add(folder_panel);</a>
+<span class="sourceLineNo">305</span><a id="line.305">        </a>
+<span class="sourceLineNo">306</span><a id="line.306">        // Zwischenraum</a>
+<span class="sourceLineNo">307</span><a id="line.307">        this.panel.add(new JLabel(""));</a>
+<span class="sourceLineNo">308</span><a id="line.308">        </a>
+<span class="sourceLineNo">309</span><a id="line.309">        // ----------</a>
+<span class="sourceLineNo">310</span><a id="line.310">        // Steuerung</a>
+<span class="sourceLineNo">311</span><a id="line.311">        // ----------</a>
+<span class="sourceLineNo">312</span><a id="line.312">        Border  RAND                  = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);</a>
+<span class="sourceLineNo">313</span><a id="line.313">        </a>
+<span class="sourceLineNo">314</span><a id="line.314">        JPanel  panel_buttons         = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));</a>
+<span class="sourceLineNo">315</span><a id="line.315">        </a>
+<span class="sourceLineNo">316</span><a id="line.316">        JButton button_activation     = new JButton(Labels.get("GUI_BUTTON_ACTIVATION"));</a>
+<span class="sourceLineNo">317</span><a id="line.317">        JButton button_autoactivation = new JButton(Labels.get("GUI_BUTTON_AUTOACTIVATION"));</a>
+<span class="sourceLineNo">318</span><a id="line.318">        JButton button_deactivation   = new JButton(Labels.get("GUI_BUTTON_DEACTIVATION"));</a>
+<span class="sourceLineNo">319</span><a id="line.319">        </a>
+<span class="sourceLineNo">320</span><a id="line.320">        button_activation.setPreferredSize(new Dimension(140, 25));</a>
+<span class="sourceLineNo">321</span><a id="line.321">        button_autoactivation.setPreferredSize(new Dimension(140, 25));</a>
+<span class="sourceLineNo">322</span><a id="line.322">        button_deactivation.setPreferredSize(new Dimension(140, 25));</a>
+<span class="sourceLineNo">323</span><a id="line.323">        </a>
+<span class="sourceLineNo">324</span><a id="line.324">        // Activation</a>
+<span class="sourceLineNo">325</span><a id="line.325">        JPanel jp_activation = new JPanel();</a>
+<span class="sourceLineNo">326</span><a id="line.326">        jp_activation.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));</a>
+<span class="sourceLineNo">327</span><a id="line.327">        jp_activation.setPreferredSize(new Dimension(170, 40));</a>
+<span class="sourceLineNo">328</span><a id="line.328">        jp_activation.setBorder(RAND);</a>
+<span class="sourceLineNo">329</span><a id="line.329">        jp_activation.add(button_activation);</a>
+<span class="sourceLineNo">330</span><a id="line.330">        panel_buttons.add(jp_activation);</a>
+<span class="sourceLineNo">331</span><a id="line.331">        this.button_activation = button_activation;</a>
+<span class="sourceLineNo">332</span><a id="line.332">        </a>
+<span class="sourceLineNo">333</span><a id="line.333">        // Autoactivation</a>
+<span class="sourceLineNo">334</span><a id="line.334">        JPanel   jp_autoactivation = new JPanel();</a>
+<span class="sourceLineNo">335</span><a id="line.335">        String[] combobox_werte    = new String[Conf.AUTOACTIVATION_TIMES.size()];</a>
+<span class="sourceLineNo">336</span><a id="line.336">        String   part1             = Labels.get("GUI_COMBOBOX_AUTOACTIVATION_PART_1");</a>
+<span class="sourceLineNo">337</span><a id="line.337">        String   part2             = Labels.get("GUI_COMBOBOX_AUTOACTIVATION_PART_2");</a>
+<span class="sourceLineNo">338</span><a id="line.338">        for (int i = 0; i &lt; Conf.AUTOACTIVATION_TIMES.size(); i++)</a>
+<span class="sourceLineNo">339</span><a id="line.339">            {</a>
+<span class="sourceLineNo">340</span><a id="line.340">            combobox_werte[i] = part1 + " " + Conf.AUTOACTIVATION_TIMES.get(i) + " " + part2;</a>
+<span class="sourceLineNo">341</span><a id="line.341">            }</a>
+<span class="sourceLineNo">342</span><a id="line.342">            </a>
+<span class="sourceLineNo">343</span><a id="line.343">        JComboBox&lt;String&gt; combobox_autoactivation = FactoryComboBoxes.get_combobox(combobox_werte);</a>
+<span class="sourceLineNo">344</span><a id="line.344">        combobox_autoactivation.setPreferredSize(new Dimension(110, 25));</a>
+<span class="sourceLineNo">345</span><a id="line.345">        combobox_autoactivation.setSelectedItem(part1 + " " + properties.get_target_time() + " " + part2);</a>
+<span class="sourceLineNo">346</span><a id="line.346">        </a>
+<span class="sourceLineNo">347</span><a id="line.347">        jp_autoactivation.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));</a>
+<span class="sourceLineNo">348</span><a id="line.348">        jp_autoactivation.setPreferredSize(new Dimension(350, 40));</a>
+<span class="sourceLineNo">349</span><a id="line.349">        jp_autoactivation.setBorder(RAND);</a>
+<span class="sourceLineNo">350</span><a id="line.350">        jp_autoactivation.add(button_autoactivation);</a>
+<span class="sourceLineNo">351</span><a id="line.351">        jp_autoactivation.add(combobox_autoactivation);</a>
+<span class="sourceLineNo">352</span><a id="line.352">        panel_buttons.add(jp_autoactivation);</a>
+<span class="sourceLineNo">353</span><a id="line.353">        this.button_autoactivation   = button_autoactivation;</a>
+<span class="sourceLineNo">354</span><a id="line.354">        this.combobox_autoactivation = combobox_autoactivation;</a>
+<span class="sourceLineNo">355</span><a id="line.355">        </a>
+<span class="sourceLineNo">356</span><a id="line.356">        // Deactivation</a>
+<span class="sourceLineNo">357</span><a id="line.357">        JPanel jp_deactivation = new JPanel();</a>
+<span class="sourceLineNo">358</span><a id="line.358">        jp_deactivation.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));</a>
+<span class="sourceLineNo">359</span><a id="line.359">        jp_deactivation.setPreferredSize(new Dimension(170, 40));</a>
+<span class="sourceLineNo">360</span><a id="line.360">        jp_deactivation.add(button_deactivation);</a>
+<span class="sourceLineNo">361</span><a id="line.361">        jp_deactivation.setBorder(RAND);</a>
+<span class="sourceLineNo">362</span><a id="line.362">        panel_buttons.add(jp_deactivation);</a>
+<span class="sourceLineNo">363</span><a id="line.363">        this.button_deactivation = button_deactivation;</a>
+<span class="sourceLineNo">364</span><a id="line.364">        </a>
+<span class="sourceLineNo">365</span><a id="line.365">        // Status</a>
+<span class="sourceLineNo">366</span><a id="line.366">        JLabel label_status = new JLabel("");</a>
+<span class="sourceLineNo">367</span><a id="line.367">        JPanel panel_status = new JPanel(new FlowLayout(FlowLayout.CENTER, 1, 1));</a>
+<span class="sourceLineNo">368</span><a id="line.368">        this.label_status = label_status;</a>
+<span class="sourceLineNo">369</span><a id="line.369">        </a>
+<span class="sourceLineNo">370</span><a id="line.370">        // Steuerungsfeld</a>
+<span class="sourceLineNo">371</span><a id="line.371">        JPanel steuerungsfeld = new JPanel();</a>
+<span class="sourceLineNo">372</span><a id="line.372">        steuerungsfeld.setLayout(new BoxLayout(steuerungsfeld, BoxLayout.Y_AXIS));</a>
+<span class="sourceLineNo">373</span><a id="line.373">        panel_status.add(label_status);</a>
+<span class="sourceLineNo">374</span><a id="line.374">        steuerungsfeld.add(panel_status);</a>
+<span class="sourceLineNo">375</span><a id="line.375">        steuerungsfeld.add(panel_buttons);</a>
+<span class="sourceLineNo">376</span><a id="line.376">        </a>
+<span class="sourceLineNo">377</span><a id="line.377">        TitledBorder tb_steuerungsfeld = new TitledBorder(Labels.get("GUI_TITLEDBORDER_CONTROL"));</a>
+<span class="sourceLineNo">378</span><a id="line.378">        tb_steuerungsfeld.setBorder(GREYLINE);</a>
+<span class="sourceLineNo">379</span><a id="line.379">        </a>
+<span class="sourceLineNo">380</span><a id="line.380">        steuerungsfeld.setBorder(new CompoundBorder(tb_steuerungsfeld, new EmptyBorder(20, 20, 20, 20)));</a>
+<span class="sourceLineNo">381</span><a id="line.381">        </a>
+<span class="sourceLineNo">382</span><a id="line.382">        this.panel.add(steuerungsfeld);</a>
+<span class="sourceLineNo">383</span><a id="line.383">        </a>
+<span class="sourceLineNo">384</span><a id="line.384">        // Zwischenraum</a>
+<span class="sourceLineNo">385</span><a id="line.385">        this.panel.add(new JLabel(""));</a>
+<span class="sourceLineNo">386</span><a id="line.386">        </a>
+<span class="sourceLineNo">387</span><a id="line.387">        // ------------------</a>
+<span class="sourceLineNo">388</span><a id="line.388">        // Protocol Overview</a>
+<span class="sourceLineNo">389</span><a id="line.389">        // ------------------</a>
+<span class="sourceLineNo">390</span><a id="line.390">        JTable            table_protocol_overview = FactoryTableProtocol_Overview.get_table(properties);</a>
+<span class="sourceLineNo">391</span><a id="line.391">        DefaultTableModel model_overview          = (DefaultTableModel) table_protocol_overview.getModel();</a>
+<span class="sourceLineNo">392</span><a id="line.392">        model_overview.getDataVector().removeAllElements();</a>
+<span class="sourceLineNo">393</span><a id="line.393">        table_protocol_overview.setVisible(true);</a>
+<span class="sourceLineNo">394</span><a id="line.394">        JScrollPane scroll_table_protocol_overview = new JScrollPane(table_protocol_overview, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);</a>
+<span class="sourceLineNo">395</span><a id="line.395">        this.table_protocol_overview = table_protocol_overview;</a>
+<span class="sourceLineNo">396</span><a id="line.396">        </a>
+<span class="sourceLineNo">397</span><a id="line.397">        // -----------------</a>
+<span class="sourceLineNo">398</span><a id="line.398">        // Protocol Details</a>
+<span class="sourceLineNo">399</span><a id="line.399">        // -----------------</a>
+<span class="sourceLineNo">400</span><a id="line.400">        JTable            table_protocol_detail = FactoryTableProtocol_Detail.get_table(properties);</a>
+<span class="sourceLineNo">401</span><a id="line.401">        DefaultTableModel model                 = (DefaultTableModel) table_protocol_detail.getModel();</a>
+<span class="sourceLineNo">402</span><a id="line.402">        model.getDataVector().removeAllElements();</a>
+<span class="sourceLineNo">403</span><a id="line.403">        table_protocol_detail.setVisible(true);</a>
+<span class="sourceLineNo">404</span><a id="line.404">        JScrollPane scroll_table_protocol = new JScrollPane(table_protocol_detail, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);</a>
+<span class="sourceLineNo">405</span><a id="line.405">        this.table_protocol_detail = table_protocol_detail;</a>
+<span class="sourceLineNo">406</span><a id="line.406">        </a>
+<span class="sourceLineNo">407</span><a id="line.407">        // -----------------</a>
+<span class="sourceLineNo">408</span><a id="line.408">        // Protocols Border</a>
+<span class="sourceLineNo">409</span><a id="line.409">        // -----------------</a>
+<span class="sourceLineNo">410</span><a id="line.410">        TitledBorder tb_protokoll = new TitledBorder(Labels.get("GUI_TITLEDBORDER_PROTOCOL"));</a>
+<span class="sourceLineNo">411</span><a id="line.411">        tb_protokoll.setBorder(GREYLINE);</a>
+<span class="sourceLineNo">412</span><a id="line.412">        // Im Zusammenhang mit der Einfuehrung der tabbedPane wurde vor die</a>
+<span class="sourceLineNo">413</span><a id="line.413">        // folgenden drei Zeilen am 2019-11-06 Koemmntarzeichen gessetzt.</a>
+<span class="sourceLineNo">414</span><a id="line.414">        // CompoundBorder cb = new CompoundBorder(tb_protokoll,new</a>
+<span class="sourceLineNo">415</span><a id="line.415">        // EmptyBorder(20,20,20,20));</a>
+<span class="sourceLineNo">416</span><a id="line.416">        // scroll_table_protocol.setBorder(cb);</a>
+<span class="sourceLineNo">417</span><a id="line.417">        // this.panel.add(scroll_table_protocol);</a>
+<span class="sourceLineNo">418</span><a id="line.418">        CompoundBorder cb         = new CompoundBorder(tb_protokoll, new EmptyBorder(3, 3, 3, 3));</a>
+<span class="sourceLineNo">419</span><a id="line.419">        </a>
+<span class="sourceLineNo">420</span><a id="line.420">        // -------------------------</a>
+<span class="sourceLineNo">421</span><a id="line.421">        // TabbedPane for Protocols</a>
+<span class="sourceLineNo">422</span><a id="line.422">        // -------------------------</a>
+<span class="sourceLineNo">423</span><a id="line.423">        JTabbedPane    tabbedPane = new JTabbedPane();</a>
+<span class="sourceLineNo">424</span><a id="line.424">        </a>
+<span class="sourceLineNo">425</span><a id="line.425">        tabbedPane.setBorder(cb);</a>
+<span class="sourceLineNo">426</span><a id="line.426">        tabbedPane.addTab(Labels.get("GUI_TABBEDPANE_TAB_OVERVIEW"), scroll_table_protocol_overview);</a>
+<span class="sourceLineNo">427</span><a id="line.427">        tabbedPane.addTab(Labels.get("GUI_TABBEDPANE_TAB_DETAILS"), scroll_table_protocol);</a>
+<span class="sourceLineNo">428</span><a id="line.428">        this.panel.add(tabbedPane);</a>
+<span class="sourceLineNo">429</span><a id="line.429">        </a>
+<span class="sourceLineNo">430</span><a id="line.430">        // -------------</a>
+<span class="sourceLineNo">431</span><a id="line.431">        // File-Chooser</a>
+<span class="sourceLineNo">432</span><a id="line.432">        // -------------</a>
+<span class="sourceLineNo">433</span><a id="line.433">        if (properties.get_language() == Language.DE)</a>
+<span class="sourceLineNo">434</span><a id="line.434">            {</a>
+<span class="sourceLineNo">435</span><a id="line.435">            fc_folder.setLocale(Locale.GERMAN);</a>
+<span class="sourceLineNo">436</span><a id="line.436">            }</a>
+<span class="sourceLineNo">437</span><a id="line.437">        else if (properties.get_language() == Language.FR)</a>
+<span class="sourceLineNo">438</span><a id="line.438">            {</a>
+<span class="sourceLineNo">439</span><a id="line.439">            fc_folder.setLocale(Locale.FRENCH);</a>
+<span class="sourceLineNo">440</span><a id="line.440">            }</a>
+<span class="sourceLineNo">441</span><a id="line.441">        else if (properties.get_language() == Language.IT)</a>
+<span class="sourceLineNo">442</span><a id="line.442">            {</a>
+<span class="sourceLineNo">443</span><a id="line.443">            fc_folder.setLocale(Locale.ITALIAN);</a>
+<span class="sourceLineNo">444</span><a id="line.444">            }</a>
+<span class="sourceLineNo">445</span><a id="line.445">        SwingUtilities.updateComponentTreeUI(fc_folder);</a>
+<span class="sourceLineNo">446</span><a id="line.446">        </a>
+<span class="sourceLineNo">447</span><a id="line.447">        // Identifizierung des Ausführungsverzeichnisses</a>
+<span class="sourceLineNo">448</span><a id="line.448">        // Das Properties-File wir im gleichen Verzeichnis gesucht,</a>
+<span class="sourceLineNo">449</span><a id="line.449">        // wo sich das zur Ausführung gebrachte JAR-File befindet.</a>
+<span class="sourceLineNo">450</span><a id="line.450">        String dir_ausfuehrung = System.getProperty("user.dir").replace("\\", "/") + "/";</a>
+<span class="sourceLineNo">451</span><a id="line.451">        File   dir             = new File(dir_ausfuehrung);</a>
+<span class="sourceLineNo">452</span><a id="line.452">        this.fc_folder.setCurrentDirectory(dir);</a>
+<span class="sourceLineNo">453</span><a id="line.453">        this.fc_folder.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);</a>
+<span class="sourceLineNo">454</span><a id="line.454">        </a>
+<span class="sourceLineNo">455</span><a id="line.455">        // -----------</a>
+<span class="sourceLineNo">456</span><a id="line.456">        // GUI-Objekt</a>
+<span class="sourceLineNo">457</span><a id="line.457">        // -----------</a>
+<span class="sourceLineNo">458</span><a id="line.458">        this.setContentPane(panel);</a>
+<span class="sourceLineNo">459</span><a id="line.459">        this.setResizable(true);</a>
+<span class="sourceLineNo">460</span><a id="line.460">        this.setVisible(false);</a>
+<span class="sourceLineNo">461</span><a id="line.461">        </a>
+<span class="sourceLineNo">462</span><a id="line.462">        }</a>
+<span class="sourceLineNo">463</span><a id="line.463">        </a>
+<span class="sourceLineNo">464</span><a id="line.464">    /**</a>
+<span class="sourceLineNo">465</span><a id="line.465">     * </a>
+<span class="sourceLineNo">466</span><a id="line.466">     * A factory method is used to offer GUI objects to the client (please note that the constructor has been declared</a>
+<span class="sourceLineNo">467</span><a id="line.467">     * as private).</a>
+<span class="sourceLineNo">468</span><a id="line.468">     * </a>
+<span class="sourceLineNo">469</span><a id="line.469">     * What is a factory method? See Goetz (2006): Java Concurrency in Practice, Chapter 3.2.1, see page 42 for details.</a>
+<span class="sourceLineNo">470</span><a id="line.470">     * </a>
+<span class="sourceLineNo">471</span><a id="line.471">     * Why are the GUI objects not offered to the client the normal way, i.e. by a public constructor?</a>
+<span class="sourceLineNo">472</span><a id="line.472">     * </a>
+<span class="sourceLineNo">473</span><a id="line.473">     * If a GUI object would be offered directly by the constructor to the client, it would be necessary to register the</a>
+<span class="sourceLineNo">474</span><a id="line.474">     * listeners inside the constructor. However, in this case, the "this"-reference would escape during construction</a>
+<span class="sourceLineNo">475</span><a id="line.475">     * because the listeners need a reference to the GUI object: Example code of a constructor with escaping</a>
+<span class="sourceLineNo">476</span><a id="line.476">     * this-reference:</a>
+<span class="sourceLineNo">477</span><a id="line.477">     * </a>
+<span class="sourceLineNo">478</span><a id="line.478">     * &lt;pre&gt;</a>
+<span class="sourceLineNo">479</span><a id="line.479">     * Controller controller = new Controller(this, properties); // this-reference is escaping</a>
+<span class="sourceLineNo">480</span><a id="line.480">     * this.button_activation.addMouseListener(controller); // registering listener</a>
+<span class="sourceLineNo">481</span><a id="line.481">     * this.button_deactivation.addMouseListener(controller); // registering listener</a>
+<span class="sourceLineNo">482</span><a id="line.482">     * this.button_autoactivation.addMouseListener(controller); // registering listener</a>
+<span class="sourceLineNo">483</span><a id="line.483">     * this.textfield_folder.addMouseListener(controller); // registering listener</a>
+<span class="sourceLineNo">484</span><a id="line.484">     * this.button_folder.addMouseListener(controller); // registering listener</a>
+<span class="sourceLineNo">485</span><a id="line.485">     * &lt;/pre&gt;</a>
+<span class="sourceLineNo">486</span><a id="line.486">     * </a>
+<span class="sourceLineNo">487</span><a id="line.487">     * If the this-reference escapes during construction, the object is considered not properly constructed (see page 41</a>
+<span class="sourceLineNo">488</span><a id="line.488">     * in Goetz (2006)).</a>
+<span class="sourceLineNo">489</span><a id="line.489">     * </a>
+<span class="sourceLineNo">490</span><a id="line.490">     * Therefore, the factory method constructs firstly the GUI object and after construction has finished, it registers</a>
+<span class="sourceLineNo">491</span><a id="line.491">     * the event listeners.</a>
+<span class="sourceLineNo">492</span><a id="line.492">     * </a>
+<span class="sourceLineNo">493</span><a id="line.493">     * Book References: Goetz (2006): Java Concurrency in Practice, Chapter 3.2.1, see page 42 for details.</a>
+<span class="sourceLineNo">494</span><a id="line.494">     * </a>
+<span class="sourceLineNo">495</span><a id="line.495">     * Internet References: https://stackoverflow.com/questions/3705425/java-reference-escape</a>
+<span class="sourceLineNo">496</span><a id="line.496">     * https://stackoverflow.com/questions/27453105/call-a-method-after-the-constructor-has-ended</a>
+<span class="sourceLineNo">497</span><a id="line.497">     * https://stackoverflow.com/questions/13717603/guice-way-to-register-a-listener-after-calling-constructor</a>
+<span class="sourceLineNo">498</span><a id="line.498">     * </a>
+<span class="sourceLineNo">499</span><a id="line.499">     * </a>
+<span class="sourceLineNo">500</span><a id="line.500">     * An alternative (very common) approach would be to use inner classes for the event handlers. However, this</a>
+<span class="sourceLineNo">501</span><a id="line.501">     * approach would have inflated the GUI class too much.</a>
+<span class="sourceLineNo">502</span><a id="line.502">     *</a>
+<span class="sourceLineNo">503</span><a id="line.503">     * Book References: Sierra, Bates: Head First Java (A Brain Friendly Guide), Chapter 12, Page 374ff. Horstmann: Java</a>
+<span class="sourceLineNo">504</span><a id="line.504">     * for Everyone, Chapter 11.6: Using Inner Classes for Listeners</a>
+<span class="sourceLineNo">505</span><a id="line.505">     *</a>
+<span class="sourceLineNo">506</span><a id="line.506">     * Internet References: https://docs.oracle.com/javase/tutorial/uiswing/events/generalrules.html#innerClasses</a>
+<span class="sourceLineNo">507</span><a id="line.507">     * https://stackoverflow.com/questions/1894181/standards-for-using-inner-classes-for-gui</a>
+<span class="sourceLineNo">508</span><a id="line.508">     * https://stackoverflow.com/questions/15960950/better-way-to-implement-inner-class-with-listeners</a>
+<span class="sourceLineNo">509</span><a id="line.509">     * http://www.fredosaurus.com/notes-java/GUI/events/inner_class_listener.html</a>
+<span class="sourceLineNo">510</span><a id="line.510">     * </a>
+<span class="sourceLineNo">511</span><a id="line.511">     *</a>
+<span class="sourceLineNo">512</span><a id="line.512"> * @author  Daniel Bierer (Statistisches Amt des Kantons Zürich)</a>
+<span class="sourceLineNo">513</span><a id="line.513"> * @version 2.4</a>
+<span class="sourceLineNo">514</span><a id="line.514">     * </a>
+<span class="sourceLineNo">515</span><a id="line.515">     * @param   properties Reference of the properties object to be used.</a>
+<span class="sourceLineNo">516</span><a id="line.516">     * @return             The manufactured GUI object.</a>
+<span class="sourceLineNo">517</span><a id="line.517">     * </a>
+<span class="sourceLineNo">518</span><a id="line.518">     */</a>
+<span class="sourceLineNo">519</span><a id="line.519">    public static Gui get_newInstance(Properties properties)</a>
+<span class="sourceLineNo">520</span><a id="line.520">        {</a>
+<span class="sourceLineNo">521</span><a id="line.521">        </a>
+<span class="sourceLineNo">522</span><a id="line.522">        // ---------------------------------------------------------------------------------</a>
+<span class="sourceLineNo">523</span><a id="line.523">        // SCHRITT 0: KONSTRUKTION DES GUI OBJEKTS</a>
+<span class="sourceLineNo">524</span><a id="line.524">        // ---------------------------------------------------------------------------------</a>
+<span class="sourceLineNo">525</span><a id="line.525">        Gui        gui        = new Gui(properties);</a>
+<span class="sourceLineNo">526</span><a id="line.526">        </a>
+<span class="sourceLineNo">527</span><a id="line.527">        // ---------------------------------------------------------------------------------</a>
+<span class="sourceLineNo">528</span><a id="line.528">        // SCHRITT 1: KONSTRUKTION DES CONTROLLERS</a>
+<span class="sourceLineNo">529</span><a id="line.529">        // ---------------------------------------------------------------------------------</a>
+<span class="sourceLineNo">530</span><a id="line.530">        // Bemerkungen:</a>
+<span class="sourceLineNo">531</span><a id="line.531">        // a) Der Controller kann erst nach der Konstruktion des GUI-Objekts</a>
+<span class="sourceLineNo">532</span><a id="line.532">        // konstruiert werden, da zu dessen Konstruktion eine Referenz</a>
+<span class="sourceLineNo">533</span><a id="line.533">        // auf das GUI-Objekt benoetigt wird.</a>
+<span class="sourceLineNo">534</span><a id="line.534">        // b) Der Controller wird als Mouse-Listener fuer gewisse</a>
+<span class="sourceLineNo">535</span><a id="line.535">        // GUI-Objekte verwendet (vgl. Source Code unten).</a>
+<span class="sourceLineNo">536</span><a id="line.536">        // c) Der Controller wird zur Konstruktion von Dialogen und weiteren</a>
+<span class="sourceLineNo">537</span><a id="line.537">        // Listenern benoetigt.</a>
+<span class="sourceLineNo">538</span><a id="line.538">        // ---------------------------------------------------------------------------------</a>
+<span class="sourceLineNo">539</span><a id="line.539">        Controller controller = new Controller(gui, properties);</a>
+<span class="sourceLineNo">540</span><a id="line.540">        </a>
+<span class="sourceLineNo">541</span><a id="line.541">        // ---------------------------------------------------------------------------------</a>
+<span class="sourceLineNo">542</span><a id="line.542">        // SCHRITT 2: REGISTRIERUNG DES CONTROLLERS ALS MOUSE_LISTENER FUER GUI-OBJEKTE</a>
+<span class="sourceLineNo">543</span><a id="line.543">        // ---------------------------------------------------------------------------------</a>
+<span class="sourceLineNo">544</span><a id="line.544">        gui.get_button_activation().addMouseListener(controller);</a>
+<span class="sourceLineNo">545</span><a id="line.545">        gui.get_button_deactivation().addMouseListener(controller);</a>
+<span class="sourceLineNo">546</span><a id="line.546">        gui.get_button_autoactivation().addMouseListener(controller);</a>
+<span class="sourceLineNo">547</span><a id="line.547">        gui.get_textfield_folder().addMouseListener(controller);</a>
+<span class="sourceLineNo">548</span><a id="line.548">        gui.get_button_folder().addMouseListener(controller);</a>
+<span class="sourceLineNo">549</span><a id="line.549">        controller.deactivation();</a>
+<span class="sourceLineNo">550</span><a id="line.550">        </a>
+<span class="sourceLineNo">551</span><a id="line.551">        // ---------------------------------------------------------------------------------</a>
+<span class="sourceLineNo">552</span><a id="line.552">        // SCHRITT 3: KONSTRUKTION DER DIAGLOGE FUER DAS GUI-OBJEKT</a>
+<span class="sourceLineNo">553</span><a id="line.553">        // ---------------------------------------------------------------------------------</a>
+<span class="sourceLineNo">554</span><a id="line.554">        // Die Dialoge werden nicht im Rahmen der Konstruktion des GUI-Objekts konstruiert,</a>
+<span class="sourceLineNo">555</span><a id="line.555">        // da sonst eine this-reference fluechten koennte, wenn das GUI-Objekt noch</a>
+<span class="sourceLineNo">556</span><a id="line.556">        // nicht fertig konstruiert ist.</a>
+<span class="sourceLineNo">557</span><a id="line.557">        // ---------------------------------------------------------------------------------</a>
+<span class="sourceLineNo">558</span><a id="line.558">        </a>
+<span class="sourceLineNo">559</span><a id="line.559">        DialogDir                    dialog_dir                    = new DialogDir(gui);</a>
+<span class="sourceLineNo">560</span><a id="line.560">        DialogFileProcessingError    dialog_fileprocessingerror    = new DialogFileProcessingError(gui);</a>
+<span class="sourceLineNo">561</span><a id="line.561">        DialogReceiptNotWellFormed   dialog_receiptnotwellformed   = new DialogReceiptNotWellFormed(gui, properties, controller);</a>
+<span class="sourceLineNo">562</span><a id="line.562">        DialogSupport                dialog_support                = new DialogSupport(gui, false);</a>
+<span class="sourceLineNo">563</span><a id="line.563">        DialogWaitingForDeactivation dialog_waitingfordeactivation = new DialogWaitingForDeactivation(gui);</a>
+<span class="sourceLineNo">564</span><a id="line.564">        dialog_dir.setVisible(false);</a>
+<span class="sourceLineNo">565</span><a id="line.565">        dialog_fileprocessingerror.setVisible(false);</a>
+<span class="sourceLineNo">566</span><a id="line.566">        dialog_receiptnotwellformed.setVisible(false);</a>
+<span class="sourceLineNo">567</span><a id="line.567">        dialog_support.setVisible(false);</a>
+<span class="sourceLineNo">568</span><a id="line.568">        dialog_waitingfordeactivation.setVisible(false);</a>
+<span class="sourceLineNo">569</span><a id="line.569">        gui.set_dialog_dir(dialog_dir);</a>
+<span class="sourceLineNo">570</span><a id="line.570">        gui.set_dialog_fileprocessingerror(dialog_fileprocessingerror);</a>
+<span class="sourceLineNo">571</span><a id="line.571">        gui.set_dialog_receiptnotwellformed(dialog_receiptnotwellformed);</a>
+<span class="sourceLineNo">572</span><a id="line.572">        gui.set_dialog_support(dialog_support);</a>
+<span class="sourceLineNo">573</span><a id="line.573">        gui.set_dialog_waitingfordeactivation(dialog_waitingfordeactivation);</a>
+<span class="sourceLineNo">574</span><a id="line.574">        </a>
+<span class="sourceLineNo">575</span><a id="line.575">        // ---------------------------------------------------------------------------------</a>
+<span class="sourceLineNo">576</span><a id="line.576">        // SCHRITT 4: KONSTRUKTION VON WEITERERN LISTERNERN</a>
+<span class="sourceLineNo">577</span><a id="line.577">        // ---------------------------------------------------------------------------------</a>
+<span class="sourceLineNo">578</span><a id="line.578">        // Die Konstruktion der folgenden weiteren EventListener wird nicht im Rahmen</a>
+<span class="sourceLineNo">579</span><a id="line.579">        // der Konstruktion des GUI-Objekts vollzogen, da zu deren Konstruktion eine</a>
+<span class="sourceLineNo">580</span><a id="line.580">        // Referenz auf das GUI-Objekt benoetigt wird.</a>
+<span class="sourceLineNo">581</span><a id="line.581">        // ---------------------------------------------------------------------------------</a>
+<span class="sourceLineNo">582</span><a id="line.582">        </a>
+<span class="sourceLineNo">583</span><a id="line.583">        // ActionListener</a>
+<span class="sourceLineNo">584</span><a id="line.584">        // Steuerung des Balkenmenüs</a>
+<span class="sourceLineNo">585</span><a id="line.585">        EventHandlerActionListener actionlistener = new EventHandlerActionListener(gui, properties, controller);</a>
+<span class="sourceLineNo">586</span><a id="line.586">        gui.get_menuitem0().addActionListener(actionlistener);</a>
+<span class="sourceLineNo">587</span><a id="line.587">        gui.get_menuitem1().addActionListener(actionlistener);</a>
+<span class="sourceLineNo">588</span><a id="line.588">        </a>
+<span class="sourceLineNo">589</span><a id="line.589">        // ComponentListener</a>
+<span class="sourceLineNo">590</span><a id="line.590">        // Beim Verschieben des Hauptfensters werden die Unterfenster auch</a>
+<span class="sourceLineNo">591</span><a id="line.591">        // mitverschoben.</a>
+<span class="sourceLineNo">592</span><a id="line.592">        // Beim Verschieben von Unterfenstern wird das Hauptfesnter auch mitverschoben.</a>
+<span class="sourceLineNo">593</span><a id="line.593">        EventHandlerComponentListener componentlistener = new EventHandlerComponentListener(gui);</a>
+<span class="sourceLineNo">594</span><a id="line.594">        gui.addComponentListener(componentlistener);</a>
+<span class="sourceLineNo">595</span><a id="line.595">        gui.get_dialog_dir().addComponentListener(componentlistener);</a>
+<span class="sourceLineNo">596</span><a id="line.596">        gui.get_dialog_fileprocessingerror().addComponentListener(componentlistener);</a>
+<span class="sourceLineNo">597</span><a id="line.597">        gui.get_dialog_support().addComponentListener(componentlistener);</a>
+<span class="sourceLineNo">598</span><a id="line.598">        gui.get_dialog_receiptnotwellformed().addComponentListener(componentlistener);</a>
+<span class="sourceLineNo">599</span><a id="line.599">        gui.get_dialog_waitingfordeactivation().addComponentListener(componentlistener);</a>
+<span class="sourceLineNo">600</span><a id="line.600">        </a>
+<span class="sourceLineNo">601</span><a id="line.601">        // ItemListener</a>
+<span class="sourceLineNo">602</span><a id="line.602">        // Wir brauchen fuer die ComoBox einen ItemListener und keinen ActionListener.</a>
+<span class="sourceLineNo">603</span><a id="line.603">        // https://stackoverflow.com/questions/32752072/jcombobox-and-itemlistener-actionlistener</a>
+<span class="sourceLineNo">604</span><a id="line.604">        EventHandlerItemListener itemlistener = new EventHandlerItemListener(gui, properties);</a>
+<span class="sourceLineNo">605</span><a id="line.605">        gui.get_combobox_autoactivation().addItemListener(itemlistener);</a>
+<span class="sourceLineNo">606</span><a id="line.606">        </a>
+<span class="sourceLineNo">607</span><a id="line.607">        // ---------------------------------------------------------------------------------</a>
+<span class="sourceLineNo">608</span><a id="line.608">        // SCHRITT 5: KONSTRUKTION VON WEITERERN LISTERNERN</a>
+<span class="sourceLineNo">609</span><a id="line.609">        // ---------------------------------------------------------------------------------</a>
+<span class="sourceLineNo">610</span><a id="line.610">        // Zur Konstruktion des folgenden Listeners wird zwar keine this-Referenz</a>
+<span class="sourceLineNo">611</span><a id="line.611">        // benoetigt, jedoch eine Referenz auf das Controller-Objekt, welches</a>
+<span class="sourceLineNo">612</span><a id="line.612">        // seinerseits</a>
+<span class="sourceLineNo">613</span><a id="line.613">        // eine Referenz auf das GUI-Objekt benoetigt. Aus diesem Grund muss auch der</a>
+<span class="sourceLineNo">614</span><a id="line.614">        // folgende Listener nach der Konstruktion des GUI-Objekts konstruiert werden.</a>
+<span class="sourceLineNo">615</span><a id="line.615">        //</a>
+<span class="sourceLineNo">616</span><a id="line.616">        //</a>
+<span class="sourceLineNo">617</span><a id="line.617">        // Festlegung derjenigen EventHandler, die keine</a>
+<span class="sourceLineNo">618</span><a id="line.618">        // this-reference zur Konstruktion benoetigen</a>
+<span class="sourceLineNo">619</span><a id="line.619">        // ----------------------------------------------------------------------------------</a>
+<span class="sourceLineNo">620</span><a id="line.620">        // WindowListener</a>
+<span class="sourceLineNo">621</span><a id="line.621">        // Festlegung der Exit-Aktion</a>
+<span class="sourceLineNo">622</span><a id="line.622">        EventHandlerWindowListener windowlistener = new EventHandlerWindowListener(properties, controller);</a>
+<span class="sourceLineNo">623</span><a id="line.623">        gui.addWindowListener(windowlistener);</a>
+<span class="sourceLineNo">624</span><a id="line.624">        </a>
+<span class="sourceLineNo">625</span><a id="line.625">        // -------------------------------------</a>
+<span class="sourceLineNo">626</span><a id="line.626">        // Returning the properly constructed</a>
+<span class="sourceLineNo">627</span><a id="line.627">        // GUI object to the client</a>
+<span class="sourceLineNo">628</span><a id="line.628">        // -------------------------------------</a>
+<span class="sourceLineNo">629</span><a id="line.629">        return gui;</a>
+<span class="sourceLineNo">630</span><a id="line.630">        </a>
+<span class="sourceLineNo">631</span><a id="line.631">        }</a>
+<span class="sourceLineNo">632</span><a id="line.632">        </a>
+<span class="sourceLineNo">633</span><a id="line.633">    }</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>

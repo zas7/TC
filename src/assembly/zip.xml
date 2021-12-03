@@ -1,0 +1,78 @@
+<assembly
+	xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0 http://maven.apache.org/xsd/assembly-1.1.0.xsd">
+	<id>bin</id>
+	<baseDirectory>/</baseDirectory>
+	<formats>
+		<format>zip</format>
+	</formats>
+	<fileSets>
+		<!-- create directory structure -->
+		<fileSet>
+			<directory>${project.basedir}/archive</directory>
+			<includes>
+				<include />
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>${project.basedir}/archive/data</directory>
+			<includes>
+				<include />
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>${project.basedir}/archive/receipts</directory>
+			<includes>
+				<include />
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>${project.basedir}/archive/stage</directory>
+			<includes>
+				<include />
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>${project.basedir}/failed</directory>
+			<includes>
+				<include />
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>${project.basedir}/log</directory>
+			<includes>
+				<include />
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>${project.basedir}/stage</directory>
+			<includes>
+				<include />
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>${project.basedir}</directory>
+			<includes>
+				<include>properties.txt</include>
+				<include>TransferClient_Start.bat</include>
+			</includes>
+			<outputDirectory>/</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>${project.basedir}/labels</directory>
+			<includes>
+				<include>labels.xml</include>
+			</includes>
+		</fileSet>
+	</fileSets>
+	<files>
+		<file>
+			<source>${project.build.directory}/${project.artifactId}-${project.version}.jar
+			</source>
+			<outputDirectory>/tfc/bin</outputDirectory>
+			<destName>${project.artifactId}.jar</destName>
+		</file>
+	</files>
+
+</assembly>
