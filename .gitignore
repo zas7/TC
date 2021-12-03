@@ -1,15 +1,24 @@
 ##############################
 ## TransferClient
 ##############################
+archive/*
+!archive/data
+!archive/receipts
+!archive/stage
 archive/data/*
+!archive/data/.gitkeep
 archive/receipts/*
+!archive/receipts/.gitkeep
 archive/stage/*
+!archive/stage/.gitkeep
 bin/*
+!bin/.gitkeep
 failed/*
+!failed/.gitkeep
 log/*
+!log/.gitkeep
 stage/*
-tfc/
-
+!stage/.gitkeep
 
 ##############################
 ## Java

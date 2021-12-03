@@ -70,7 +70,7 @@
 		<file>
 			<source>${project.build.directory}/${project.artifactId}-${project.version}.jar
 			</source>
-			<outputDirectory>/tfc/bin</outputDirectory>
+			<outputDirectory>/bin</outputDirectory>
 			<destName>${project.artifactId}.jar</destName>
 		</file>
 	</files>
