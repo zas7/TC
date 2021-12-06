@@ -30,6 +30,7 @@
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
+					<fork>true</fork>
 					<executable>D:/Applications/Eclipse Adoptium/jdk-17.0.1.12-hotspot/bin/javac</executable>
 				</configuration>
 			</plugin>
