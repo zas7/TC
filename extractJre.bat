@@ -15,10 +15,10 @@ if [%2]==[] goto :usage
 --strip-debug ^
 --no-man-pages ^
 --add-modules java.base,java.desktop,java.xml && ^
-exit %%ERRORLEVEL%%
+exit /b %%ERRORLEVEL%%
 
 :usage
 echo Call with parameters
 echo 1: JAVA_HOME
 echo 2: JENKINS WORKSPACE
-exit / b1
+exit /b 1

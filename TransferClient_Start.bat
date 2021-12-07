@@ -5,8 +5,8 @@
 ::
 :: ***************************************************************************************************
 ::
-:: If you need to use another JRE than the contained in the zip, 
-:: change the path to the java runtime vm to your needs (Variable JAVA_RT_PATH).
+:: If you need to use another JRE than contained in the zip, 
+:: change the path to the JRE (Variable JAVA_JRE_PATH).
 :: The JRE version must be at least 1.17.1
 ::
 :: ===================================================================================================
@@ -16,15 +16,15 @@ setlocal
 pushd %cd%
 
 :: change here
-set JAVA_RT_PATH=%cd%\bin\jre_17.0.1
+set JAVA_JRE_PATH=%cd%\bin\jre_17.0.1
 
-set JAVAW="%JAVA_RT_PATH:"=%\bin\javaw.exe"
+set JAVAW="%JAVA_JRE_PATH:"=%\bin\javaw.exe"
 
 start /b "" %JAVAW% -jar bin\transferClient.jar
 
 if errorlevel 1 (
   echo.
-  echo Error occured at startup. Please call your local support!
+  echo Error occurred at startup. Please call your local support!
   echo.
   pause
   exit /b 1
