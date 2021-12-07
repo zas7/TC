@@ -1,21 +1,22 @@
+@echo off
 :: Version 2.5
 ::
-:: batch file which starts the transfer client application
+:: batch file that starts the transfer client application
 ::
 :: ***************************************************************************************************
 ::
-:: Change the path to the java runtime vm to your needs (Variable JAVA_RT_PATH).
-:: The version must be at least 1.17.1
+:: If you need to use another JRE than the contained in the zip, 
+:: change the path to the java runtime vm to your needs (Variable JAVA_RT_PATH).
+:: The JRE version must be at least 1.17.1
 ::
 :: ===================================================================================================
 
-@echo on
 title TransferClient Start Up
 setlocal
 pushd %cd%
 
 :: change here
-set JAVA_RT_PATH=%cd%\bin\jre1.8.0_311
+set JAVA_RT_PATH=%cd%\bin\jre_17.0.1
 
 set JAVAW="%JAVA_RT_PATH:"=%\bin\javaw.exe"
 

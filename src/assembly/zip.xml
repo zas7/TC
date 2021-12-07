@@ -65,6 +65,10 @@
 				<include>labels.xml</include>
 			</includes>
 		</fileSet>
+		<fileSet>
+			<directory>${project.build.directory}/jre</directory>
+			<outputDirectory>/bin/jre_17.0.1</outputDirectory>
+		</fileSet>
 	</fileSets>
 	<files>
 		<file>
@@ -74,5 +78,4 @@
 			<destName>${project.artifactId}.jar</destName>
 		</file>
 	</files>
-
 </assembly>
