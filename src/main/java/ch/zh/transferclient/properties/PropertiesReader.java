@@ -36,9 +36,9 @@ public class PropertiesReader
      */
     private PropertiesReader()
         {
-      //see also https://stackoverflow.com/questions/31409982/java-best-practice-class-with-only-static-methods
+        // see also https://stackoverflow.com/questions/31409982/java-best-practice-class-with-only-static-methods
         }
-    
+        
     /**
      * Returns the properties to be used.
      * 
@@ -76,18 +76,19 @@ public class PropertiesReader
         // --------------------------------------//
         
         // Delay
-        long delay = 10;
-        try 
+        long    delay                          = 100;
+        try
             {
             delay = Long.valueOf(delay_string);
+            delay = delay < 100 ? 100 : delay;
             }
-        catch(Exception e)
+        catch (Exception e)
             {
-            delay = 10;
+            delay = 100;
             }
-        
+            
         // ZIP compression testen
-        boolean zip_compression                = true;
+        boolean zip_compression = true;
         if (zip_compression_string.equalsIgnoreCase("false"))
             {
             zip_compression = false;

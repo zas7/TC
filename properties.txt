@@ -59,19 +59,6 @@ SEDEX_SENDER_ID=4-143849-0
 # 
 # RECIPIENTS                             SEDEX-ID         
 # 
-# OFS/BFS Madeleine Schneider            4-010502-1       
-# OFS/BFS Corinne Straub                 4-925020-5       
-# OFS/BFS Julie Silberstein              4-460754-7       
-# OFS/BFS Alain Herzig                   4-346040-2       
-# OFS/BFS Oliver Zumbrunnen              4-960533-6       
-# ChF/BK                                 4-760515-6       
-# ChF/BK 2                               4-720361-0       
-# ChF/BK 3                               4-563119-5       
-# ChF/BK 4                               4-031888-0       
-# ChF/BK 5                               4-697032-9       
-# ChF/BK 6                               4-986237-5       
-# Support Transfer-Client                4-143849-0       
-# 
 # It is important to note that the SEDEX-ID is followed   
 # by a label (separated from the SEDEX-ID by a % symbol). 
 # These labels are not permitted to contain commas.       
