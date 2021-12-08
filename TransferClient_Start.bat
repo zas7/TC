@@ -20,7 +20,7 @@ set JAVA_JRE_PATH=%cd%\bin\jre_17.0.1
 
 set JAVAW="%JAVA_JRE_PATH:"=%\bin\javaw.exe"
 
-start /b "" %JAVAW% -jar bin\transferClient.jar
+start /b "" %JAVAW% -splash:bin\splashScreen.jpg -jar bin\transferClient.jar
 
 if errorlevel 1 (
   echo.
