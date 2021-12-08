@@ -39,9 +39,9 @@ public class CreateTestInputs
      */
     private CreateTestInputs()
         {
-        //see also https://stackoverflow.com/questions/31409982/java-best-practice-class-with-only-static-methods
+        // see also https://stackoverflow.com/questions/31409982/java-best-practice-class-with-only-static-methods
         }
-    
+        
     /**
      * Writes 1000 input files to the input folder.
      * 
@@ -75,8 +75,7 @@ public class CreateTestInputs
             }
             
         }
-    
-    
+        
     /**
      * Writes a test input file.
      * 
@@ -87,11 +86,10 @@ public class CreateTestInputs
         
         String dir = "c://0_tf_reliability//files_fuer_stresstest_5//";
         
-        try
+        try (FileOutputStream fos = new FileOutputStream(dir + filename);
+                OutputStreamWriter osw = new OutputStreamWriter(fos);
+                BufferedWriter bw = new BufferedWriter(osw))
             {
-            
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dir + filename)));
-            
             bw.write("---------------------------------------------------------");
             bw.newLine();
             bw.write(" BEIM VORLIEGENDEN FILE HANDELT ES SICH UM EIN TESTFILE, ");
@@ -114,8 +112,6 @@ public class CreateTestInputs
             bw.newLine();
             
             bw.flush();
-            bw.close();
-            
             }
         catch (Exception e)
             {

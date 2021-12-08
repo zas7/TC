@@ -1,12 +1,8 @@
 package ch.zh.transferclient.util;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
-import java.nio.channels.OverlappingFileLockException;
 
 /**
  * FileLockerReadOnly lockt einen FileInputStream. Locktyp ist shared
@@ -18,8 +14,8 @@ import java.nio.channels.OverlappingFileLockException;
  */
 public class FileLockerReadOnly implements AutoCloseable
     {
-    public FileChannel fch  = null;
-    public FileLock    lock = null;
+    private FileChannel fch  = null;
+    private FileLock    lock = null;
     
     public FileLockerReadOnly(FileInputStream fis) throws Exception
         {
@@ -51,7 +47,7 @@ public class FileLockerReadOnly implements AutoCloseable
         
     public boolean isValid()
         {
-        return lock != null ? lock.isValid() : false;
+        return lock != null && lock.isValid();
         }
         
     public void close()

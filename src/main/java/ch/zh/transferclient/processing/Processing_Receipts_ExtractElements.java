@@ -53,7 +53,7 @@ public class Processing_Receipts_ExtractElements
 
      * @return              The value of the parameter.
      */
-    protected synchronized static Processing_Receipts_Record extract(final Document doc,final Gui gui)
+    protected static synchronized Processing_Receipts_Record extract(final Document doc,final Gui gui)
         {
         String messageId  = "Not available";
         String statusInfo = "Not available";
@@ -102,9 +102,7 @@ public class Processing_Receipts_ExtractElements
                 });
             }
             
-        Processing_Receipts_Record record = new Processing_Receipts_Record(messageId,statusInfo,statusCode); 
-        
-        return record;
+        return new Processing_Receipts_Record(messageId,statusInfo,statusCode); 
         }
         
     }

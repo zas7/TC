@@ -80,7 +80,7 @@ public class Extract
         {
         return this.delay;
         }
-    
+        
     /**
      * @return Indicator which indicates whether the files should be compressed or not.
      */
@@ -177,170 +177,173 @@ public class Extract
     protected Extract() throws Exception
         {
         
-        String              delay                           = "";
-        String              zip_compression                 = "";
+        String delay                   = "";
+        String zip_compression         = "";
         
-        String              log_overwrite                   = "";
-        String              log_suppress_debug              = "";
-        String              archive_datafiles               = "";
+        String log_overwrite           = "";
+        String log_suppress_debug      = "";
+        String archive_datafiles       = "";
         
-        String              language                        = "";
+        String language                = "";
         
-        String              sedex_sender_id                 = "";
-        String              sedex_recipient_id              = "";
-        String              sedex_dir                       = "";
-        String              sedex_dir_outbox                = "";
-        String              sedex_dir_receipts              = "";
+        String sedex_sender_id         = "";
+        String sedex_recipient_id      = "";
+        String sedex_dir               = "";
+        String sedex_dir_outbox        = "";
+        String sedex_dir_receipts      = "";
         
-        String              folder_results                  = "";
-        String              target_time                     = "";
+        String folder_results          = "";
+        String target_time             = "";
         
-        String              number_of_table_entries         = "";
+        String number_of_table_entries = "";
         
         // Identifizierung des Ausführungsverzeichnisses
         // Das Properties-File wir im gleichen Verzeichnis gesucht,
         // wo sich das zur Ausführung gebrachte JAR-File befindet.
-        String              dir_ausfuehrung                 = System.getProperty("user.dir");
+        String dir_ausfuehrung         = System.getProperty("user.dir");
         
-        BufferedInputStream stream                          = new BufferedInputStream(new FileInputStream(dir_ausfuehrung
-                + "/properties.txt"));
-        
-        BufferedReader      r                               = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
-        
-        String              line;
-        while ((line = r.readLine()) != null)
+        try (FileInputStream fis = new FileInputStream(dir_ausfuehrung + "/properties.txt");
+                BufferedInputStream stream = new BufferedInputStream(fis);
+                InputStreamReader isr = new InputStreamReader(stream, StandardCharsets.UTF_8);
+                BufferedReader r = new BufferedReader(isr))
             {
             
-            if (!line.trim().startsWith("#"))
+            String line;
+            while ((line = r.readLine()) != null)
                 {
-                if (line.contains("="))
+                
+                if (!line.trim().startsWith("#"))
                     {
-                    String[] paare     = line.split("=");
-                    
-                    String   parameter = paare[0].toLowerCase().trim();
-                    
-                    if (parameter.equals("delay"))
+                    if (line.contains("="))
                         {
-                        if (paare.length > 1)
-                            {
-                            delay = paare[1].trim();
-                            }
-                        }
-                    else if (parameter.equals("zip_compression"))
-                        {
-                        if (paare.length > 1)
-                            {
-                            zip_compression = paare[1].trim();
-                            }
-                        }
-                    else if (parameter.equals("log_overwrite"))
-                        {
-                        if (paare.length > 1)
-                            {
-                            log_overwrite = paare[1].trim();
-                            }
-                        }
-                    else if (parameter.equals("log_suppress_debug"))
-                        {
-                        if (paare.length > 1)
-                            {
-                            log_suppress_debug = paare[1].trim();
-                            }
-                        }
-                    else if (parameter.equals("archive_datafiles"))
-                        {
-                        if (paare.length > 1)
-                            {
-                            archive_datafiles = paare[1].trim();
-                            }
-                        }
-                    else if (parameter.equals("language"))
-                        {
-                        if (paare.length > 1)
-                            {
-                            language = paare[1].trim();
-                            }
-                        }
-                    else if (parameter.equals("sedex_sender_id"))
-                        {
-                        if (paare.length > 1)
-                            {
-                            sedex_sender_id = paare[1].trim();
-                            }
-                        }
-                    else if (parameter.equals("sedex_recipient_id"))
-                        {
-                        if (paare.length > 1)
-                            {
-                            sedex_recipient_id = paare[1].trim();
-                            }
-                        }
-                    else if (parameter.equals("sedex_dir"))
-                        {
+                        String[] paare     = line.split("=");
                         
-                        if (paare.length > 1)
+                        String   parameter = paare[0].toLowerCase().trim();
+                        
+                        if (parameter.equals("delay"))
+                            {
+                            if (paare.length > 1)
+                                {
+                                delay = paare[1].trim();
+                                }
+                            }
+                        else if (parameter.equals("zip_compression"))
+                            {
+                            if (paare.length > 1)
+                                {
+                                zip_compression = paare[1].trim();
+                                }
+                            }
+                        else if (parameter.equals("log_overwrite"))
+                            {
+                            if (paare.length > 1)
+                                {
+                                log_overwrite = paare[1].trim();
+                                }
+                            }
+                        else if (parameter.equals("log_suppress_debug"))
+                            {
+                            if (paare.length > 1)
+                                {
+                                log_suppress_debug = paare[1].trim();
+                                }
+                            }
+                        else if (parameter.equals("archive_datafiles"))
+                            {
+                            if (paare.length > 1)
+                                {
+                                archive_datafiles = paare[1].trim();
+                                }
+                            }
+                        else if (parameter.equals("language"))
+                            {
+                            if (paare.length > 1)
+                                {
+                                language = paare[1].trim();
+                                }
+                            }
+                        else if (parameter.equals("sedex_sender_id"))
+                            {
+                            if (paare.length > 1)
+                                {
+                                sedex_sender_id = paare[1].trim();
+                                }
+                            }
+                        else if (parameter.equals("sedex_recipient_id"))
+                            {
+                            if (paare.length > 1)
+                                {
+                                sedex_recipient_id = paare[1].trim();
+                                }
+                            }
+                        else if (parameter.equals("sedex_dir"))
                             {
                             
-                            // Warum nicht replaceAll()? in der folgenden Zeile?
-                            // Grund:
-                            // https://stackoverflow.com/questions/6805028/how-to-replace-backward-slash-to-forward-slash-using-java
-                            sedex_dir = paare[1].replace("\\", "/").trim();
+                            if (paare.length > 1)
+                                {
+                                
+                                // Warum nicht replaceAll()? in der folgenden Zeile?
+                                // Grund:
+                                // https://stackoverflow.com/questions/6805028/how-to-replace-backward-slash-to-forward-slash-using-java
+                                sedex_dir = paare[1].replace("\\", "/").trim();
+                                }
                             }
-                        }
-                        
-                    else if (parameter.equals("sedex_dir_outbox"))
-                        {
-                        
-                        if (paare.length > 1)
+                            
+                        else if (parameter.equals("sedex_dir_outbox"))
                             {
                             
-                            // Warum nicht replaceAll()? in der folgenden Zeile?
-                            // Grund:
-                            // https://stackoverflow.com/questions/6805028/how-to-replace-backward-slash-to-forward-slash-using-java
-                            sedex_dir_outbox = paare[1].replace("\\", "/").trim();
+                            if (paare.length > 1)
+                                {
+                                
+                                // Warum nicht replaceAll()? in der folgenden Zeile?
+                                // Grund:
+                                // https://stackoverflow.com/questions/6805028/how-to-replace-backward-slash-to-forward-slash-using-java
+                                sedex_dir_outbox = paare[1].replace("\\", "/").trim();
+                                }
                             }
-                        }
-                        
-                    else if (parameter.equals("sedex_dir_receipts"))
-                        {
-                        
-                        if (paare.length > 1)
+                            
+                        else if (parameter.equals("sedex_dir_receipts"))
                             {
                             
-                            // Warum nicht replaceAll()? in der folgenden Zeile?
-                            // Grund:
-                            // https://stackoverflow.com/questions/6805028/how-to-replace-backward-slash-to-forward-slash-using-java
-                            sedex_dir_receipts = paare[1].replace("\\", "/").trim();
+                            if (paare.length > 1)
+                                {
+                                
+                                // Warum nicht replaceAll()? in der folgenden Zeile?
+                                // Grund:
+                                // https://stackoverflow.com/questions/6805028/how-to-replace-backward-slash-to-forward-slash-using-java
+                                sedex_dir_receipts = paare[1].replace("\\", "/").trim();
+                                }
                             }
-                        }
-                        
-                    else if (parameter.equals("folder_results"))
-                        
-                        {
-                        if (paare.length > 1)
-                            {
                             
-                            // Warum nicht replaceAll()? in der folgenden Zeile?
-                            // Grund:
-                            // https://stackoverflow.com/questions/6805028/how-to-replace-backward-slash-to-forward-slash-using-java
-                            folder_results = paare[1].replace("\\", "/").trim();
-                            }
-                        }
-                        
-                    else if (parameter.equals("target_time"))
-                        {
-                        if (paare.length > 1)
+                        else if (parameter.equals("folder_results"))
+                            
                             {
-                            target_time = paare[1].trim();
+                            if (paare.length > 1)
+                                {
+                                
+                                // Warum nicht replaceAll()? in der folgenden Zeile?
+                                // Grund:
+                                // https://stackoverflow.com/questions/6805028/how-to-replace-backward-slash-to-forward-slash-using-java
+                                folder_results = paare[1].replace("\\", "/").trim();
+                                }
                             }
-                        }
-                        
-                    else if (parameter.equals("number_of_table_entries"))
-                        {
-                        if (paare.length > 1)
+                            
+                        else if (parameter.equals("target_time"))
                             {
-                            number_of_table_entries = paare[1].trim();
+                            if (paare.length > 1)
+                                {
+                                target_time = paare[1].trim();
+                                }
                             }
+                            
+                        else if (parameter.equals("number_of_table_entries"))
+                            {
+                            if (paare.length > 1)
+                                {
+                                number_of_table_entries = paare[1].trim();
+                                }
+                            }
+                            
                         }
                         
                     }
@@ -349,28 +352,25 @@ public class Extract
                 
             }
             
-        r.close();
-        stream.close();
+        this.delay                   = delay;
+        this.zip_compression         = zip_compression;
         
-        this.delay                           = delay;
-        this.zip_compression                 = zip_compression;
+        this.log_overwrite           = log_overwrite;
+        this.log_suppress_debug      = log_suppress_debug;
+        this.archive_datafiles       = archive_datafiles;
         
-        this.log_overwrite                   = log_overwrite;
-        this.log_suppress_debug              = log_suppress_debug;
-        this.archive_datafiles               = archive_datafiles;
+        this.language                = language;
         
-        this.language                        = language;
+        this.sedex_sender_id         = sedex_sender_id;
+        this.sedex_recipient_id      = sedex_recipient_id;
+        this.sedex_dir               = sedex_dir;
+        this.sedex_dir_outbox        = sedex_dir_outbox;
+        this.sedex_dir_receipts      = sedex_dir_receipts;
         
-        this.sedex_sender_id                 = sedex_sender_id;
-        this.sedex_recipient_id              = sedex_recipient_id;
-        this.sedex_dir                       = sedex_dir;
-        this.sedex_dir_outbox                = sedex_dir_outbox;
-        this.sedex_dir_receipts              = sedex_dir_receipts;
+        this.folder_results          = folder_results;
+        this.target_time             = target_time;
         
-        this.folder_results                  = folder_results;
-        this.target_time                     = target_time;
-        
-        this.number_of_table_entries         = number_of_table_entries;
+        this.number_of_table_entries = number_of_table_entries;
         
         }
         

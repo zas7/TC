@@ -36,9 +36,9 @@ public class Processing_SingleInput_CreateEnvelope
      */
     private Processing_SingleInput_CreateEnvelope()
         {
-        //see also https://stackoverflow.com/questions/31409982/java-best-practice-class-with-only-static-methods
+        // see also https://stackoverflow.com/questions/31409982/java-best-practice-class-with-only-static-methods
         }
-    
+        
     /**
      * Creates an envelope file.
      * 
@@ -47,13 +47,11 @@ public class Processing_SingleInput_CreateEnvelope
      * @param sedex_sender_id    Sedex Sender ID to be used.
      * @param sedex_recipient_id Sedex_Recipient ID to be used.
      */
-    protected synchronized static void process(final File envelopefile, final String sedex_message_id, final String sedex_sender_id, final String sedex_recipient_id)
+    protected static synchronized void process(final File envelopefile, final String sedex_message_id, final String sedex_sender_id, final String sedex_recipient_id)
         {
         
-        try
+        try (FileWriter fw = new FileWriter(envelopefile); BufferedWriter bw = new BufferedWriter(fw))
             {
-            
-            BufferedWriter bw = new BufferedWriter(new FileWriter(envelopefile));
             
             bw.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
             bw.newLine();
@@ -83,9 +81,6 @@ public class Processing_SingleInput_CreateEnvelope
             bw.newLine();
             bw.write("</envelope> ");
             bw.newLine();
-            
-            bw.close();
-            
             }
             
         catch (Exception e)

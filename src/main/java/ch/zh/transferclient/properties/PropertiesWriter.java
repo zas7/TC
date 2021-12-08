@@ -20,7 +20,6 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 
 import ch.zh.transferclient.main.Logger;
-import ch.zh.transferclient.properties.Properties;
 import ch.zh.transferclient.properties.Properties.Language;
 
 /**
@@ -39,9 +38,9 @@ public class PropertiesWriter
      */
     private PropertiesWriter()
         {
-      //see also https://stackoverflow.com/questions/31409982/java-best-practice-class-with-only-static-methods
+        // see also https://stackoverflow.com/questions/31409982/java-best-practice-class-with-only-static-methods
         }
-    
+        
     /**
      * Writes the properties to the properties file.
      * 
@@ -50,10 +49,10 @@ public class PropertiesWriter
     public static void write(Properties properties)
         {
         
-        try
+        try (FileOutputStream fos = new FileOutputStream("properties.txt");
+                OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
+                BufferedWriter bw = new BufferedWriter(osw))
             {
-            
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("properties.txt"), StandardCharsets.UTF_8));
             
             bw.write("# ################################# #");
             bw.newLine();
@@ -71,7 +70,7 @@ public class PropertiesWriter
             bw.newLine();
             bw.write("# and the commencement of the next.");
             bw.newLine();
-            bw.write("DELAY="+properties.get_delay());
+            bw.write("DELAY=" + properties.get_delay());
             bw.newLine();
             bw.newLine();
             
@@ -247,7 +246,7 @@ public class PropertiesWriter
             bw.write("# ");
             bw.newLine();
             
-            //Example configuration 1
+            // Example configuration 1
             bw.write("# Example I of configuration:");
             bw.newLine();
             bw.write("# SEDEX_RECIPIENT_ID=");
@@ -266,7 +265,7 @@ public class PropertiesWriter
             bw.write("#");
             bw.newLine();
             
-            //Example configuration 2
+            // Example configuration 2
             bw.write("# Example II of configuration:");
             bw.newLine();
             bw.write("# SEDEX_RECIPIENT_ID=");
@@ -356,8 +355,6 @@ public class PropertiesWriter
             bw.newLine();
             
             bw.flush();
-            
-            bw.close();
             }
         catch (Exception e)
             {

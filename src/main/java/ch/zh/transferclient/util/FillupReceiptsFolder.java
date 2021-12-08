@@ -34,13 +34,13 @@ public class FillupReceiptsFolder
     {
     
     /**
-     * Constructs a FillupReceiptsFolder object. 
+     * Constructs a FillupReceiptsFolder object.
      */
     private FillupReceiptsFolder()
         {
-        //see also https://stackoverflow.com/questions/31409982/java-best-practice-class-with-only-static-methods
+        // see also https://stackoverflow.com/questions/31409982/java-best-practice-class-with-only-static-methods
         }
-    
+        
     /**
      * Writes 1000 receipt files to the receipts folder.
      * 
@@ -60,8 +60,8 @@ public class FillupReceiptsFolder
     /**
      * Writes a receipt file.
      * 
-     * @param sedex_message_id  Sedex Message ID to be used.
-     * @param empfaenger        Receiver to be used.
+     * @param sedex_message_id Sedex Message ID to be used.
+     * @param empfaenger       Receiver to be used.
      */
     private static void write_file(String sedex_message_id, String empfaenger)
         {
@@ -75,10 +75,10 @@ public class FillupReceiptsFolder
         // "c://0_tf_reliability//sedex//receipts/simulation_receipt_"+ts+".xml";
         String simulation_receipt = "z://receipts/simulation_receipt_" + ts + ".xml";
         
-        try
+        try (FileOutputStream fos = new FileOutputStream(simulation_receipt);
+                OutputStreamWriter osw = new OutputStreamWriter(fos);
+                BufferedWriter bw = new BufferedWriter(osw))
             {
-            
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(simulation_receipt)));
             
             bw.write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
             bw.newLine();
@@ -104,8 +104,6 @@ public class FillupReceiptsFolder
             bw.newLine();
             
             bw.flush();
-            bw.close();
-            
             }
         catch (Exception e)
             {
@@ -120,11 +118,11 @@ public class FillupReceiptsFolder
             {
             Thread.sleep(100);
             }
-        catch (Exception e)
+        catch (InterruptedException e)
             {
             e.printStackTrace();
+            Thread.currentThread().interrupt();
             }
-            
         }
         
     }

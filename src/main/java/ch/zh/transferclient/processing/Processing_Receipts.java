@@ -75,7 +75,7 @@ public class Processing_Receipts
      * i.e. it cannot happen that the EDT thread requests a receipt which does not exist anymore.
      * 
      */
-    private final static Vector<Processing_Receipts_Record> RECEIPTS = new Vector<Processing_Receipts_Record>();
+    private static final Vector<Processing_Receipts_Record> RECEIPTS = new Vector<>();
     
     /**
      * Processes one receipts: One receipt file is evaluated in order to inform the end user about the transfer status.
@@ -86,7 +86,7 @@ public class Processing_Receipts
      * @throws InvocationTargetException Exception which can be thrown by SwingUtilities.invokeAndWait.
      * @throws IOException               Exception during file functions
      */
-    protected synchronized static void process_receipts(final Properties properties, final Gui gui) throws InterruptedException, InvocationTargetException, IOException
+    protected static synchronized void process_receipts(final Properties properties, final Gui gui) throws InterruptedException, InvocationTargetException, IOException
         {
         
         final String            dir_sedex_receipts  = properties.get_sedex_dir_receipts();

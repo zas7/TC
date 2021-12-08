@@ -29,7 +29,7 @@ public class Properties
     {
     
     /** Possible languages. */
-    public static enum Language {
+    public enum Language {
         /** German language. */
         DE,
         /** French language. */
@@ -38,7 +38,7 @@ public class Properties
         IT,
         /** Romansh language. */
         RM
-    };
+    }
     
     /** The delay in milliseconds between the termination of one execution and the commencement of the next. */
     private final long              delay;                    // Konfigurierbar im Konfigurationsfile
@@ -261,8 +261,8 @@ public class Properties
         this.language               = language;
         
         this.sedex_sender_id        = sedex_sender_id;
-        this.sedex_recipient_ids    = new ArrayList<String>();
-        this.sedex_recipient_labels = new ArrayList<String>();
+        this.sedex_recipient_ids    = new ArrayList<>();
+        this.sedex_recipient_labels = new ArrayList<>();
         StringTokenizer st = new StringTokenizer(sedex_recipient_id, ",");
         while (st.hasMoreTokens())
             {

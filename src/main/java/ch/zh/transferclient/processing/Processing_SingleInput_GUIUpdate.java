@@ -58,7 +58,7 @@ public class Processing_SingleInput_GUIUpdate
      *                                 SwingUtilities.invokeAndWait.
      * 
      */
-    protected synchronized static void process
+    protected static synchronized void process
     /* @formatter:off */
         (
         final Properties properties,

@@ -19,6 +19,7 @@ package ch.zh.transferclient.annotationservices;
 import java.io.File;
 import java.nio.file.*;
 import java.util.Iterator;
+import java.util.stream.Stream;
 
 /**
  * This class is used to write backups of the source files of the Transfer-Client.
@@ -35,9 +36,9 @@ public class AnnotationsBackupService
      */
     private AnnotationsBackupService()
         {
-        //see also https://stackoverflow.com/questions/31409982/java-best-practice-class-with-only-static-methods
+        // see also https://stackoverflow.com/questions/31409982/java-best-practice-class-with-only-static-methods
         }
-    
+        
     /**
      * Source folder.
      */
@@ -55,16 +56,16 @@ public class AnnotationsBackupService
     protected static void backup_to_src_old()
         {
         
-        try
+        try (Stream<Path> files = Files.walk(Paths.get(SOURCE_FOLDER)))
             {
-            Iterator<Path> it = Files.walk(Paths.get(SOURCE_FOLDER)).filter(p -> p.toString().endsWith(".java")).iterator();
+            Iterator<Path> it = files.filter(p -> p.toString().endsWith(".java")).iterator();
             
             while (it.hasNext())
                 {
                 Path   source_path     = it.next();
                 
                 String target_filename = TARGET_FOLDER + "/" + AnnotationsTimeStamp.get_timestamp() + "_"
-                        + source_path.toString().replaceAll("\\\\", "_");
+                        + source_path.toString().replace("\\\\", "_");
                 Path   target_path     = new File(target_filename).toPath();
                 
                 Files.copy(source_path, target_path, StandardCopyOption.REPLACE_EXISTING);

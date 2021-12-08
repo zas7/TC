@@ -100,17 +100,17 @@ public class GuiStartupError extends JFrame implements ActionListener, Component
     @Override
     public void componentHidden(ComponentEvent e)
         {
-        };
+        }
         
     @Override
     public void componentResized(ComponentEvent e)
         {
-        };
+        }
         
     @Override
     public void componentShown(ComponentEvent e)
         {
-        };
+        }
         
     /**
      * Constructs a GuiStartupError object.
@@ -141,7 +141,7 @@ public class GuiStartupError extends JFrame implements ActionListener, Component
         setLocation(x, y);
         
         // Exit-Operation definieren
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         
         // Panel
         JPanel panel = new JPanel();
@@ -203,7 +203,7 @@ public class GuiStartupError extends JFrame implements ActionListener, Component
         textarea.setEditable(false);
         textarea.setEnabled(true);
         textarea.setAlignmentX(Component.LEFT_ALIGNMENT);
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         
         sb.append("Exception: \n\n");
         sb.append("    " + e.toString() + "\n\n");

@@ -16,7 +16,6 @@
 
 package ch.zh.transferclient.main;
 
-import java.awt.Frame;
 import java.util.ArrayList;
 import javax.swing.*;
 

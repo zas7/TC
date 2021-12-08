@@ -142,13 +142,13 @@ public class DialogSupport extends JDialog implements MouseListener
         
         JScrollPane sp = new JScrollPane(textpane);
         sp.setAlignmentX(Component.LEFT_ALIGNMENT);
-        ;
+        
         JPanel jp = new JPanel();
         jp.setLayout(new FlowLayout());
         jp.add(sp);
         jp.setAlignmentX(Component.LEFT_ALIGNMENT);
         
-        StringBuffer contact = new StringBuffer();
+        StringBuilder contact = new StringBuilder();
         
         contact.append("<table>\n");
         

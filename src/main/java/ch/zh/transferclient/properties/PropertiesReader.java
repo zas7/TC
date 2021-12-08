@@ -88,28 +88,28 @@ public class PropertiesReader
         
         // ZIP compression testen
         boolean zip_compression                = true;
-        if (zip_compression_string.toLowerCase().equals("false"))
+        if (zip_compression_string.equalsIgnoreCase("false"))
             {
             zip_compression = false;
             }
             
         // Log overwrite testen
         boolean log_overwrite = false;
-        if (log_overwrite_string.toLowerCase().equals("true"))
+        if (log_overwrite_string.equalsIgnoreCase("true"))
             {
             log_overwrite = true;
             }
             
         // Log level testen
         boolean log_suppress_debug = true;
-        if (log_suppress_debug_string.toLowerCase().equals("false"))
+        if (log_suppress_debug_string.equalsIgnoreCase("false"))
             {
             log_suppress_debug = false;
             }
             
         // Archive testen
         boolean archive_datafiles = true;
-        if (archive_datafiles_string.toLowerCase().equals("false"))
+        if (archive_datafiles_string.equalsIgnoreCase("false"))
             {
             archive_datafiles = false;
             }
@@ -301,10 +301,7 @@ public class PropertiesReader
             number_of_table_entries = 1;
             }
             
-        Properties properties = new Properties(delay, zip_compression, log_overwrite, log_suppress_debug, archive_datafiles, language, sedex_sender_id, sedex_recipient_id, sedex_dir_outbox, sedex_dir_receipts, folder_results, target_time, number_of_table_entries);
-        
-        return properties;
-        
+        return new Properties(delay, zip_compression, log_overwrite, log_suppress_debug, archive_datafiles, language, sedex_sender_id, sedex_recipient_id, sedex_dir_outbox, sedex_dir_receipts, folder_results, target_time, number_of_table_entries);
         }
         
     }

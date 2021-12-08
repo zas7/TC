@@ -40,7 +40,7 @@ public class AnnotationsTimeStamp
     /**
      * Date format to be used for the time stamp.
      */
-    private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy_MM_dd_HHmm");
+    private final static SimpleDateFormat SDF = new SimpleDateFormat("yyyy_MM_dd_HHmm");
     
     /**
      * Returns the time stamp for the backup files.

@@ -35,7 +35,7 @@ public class Logger
     /** Available log levels. */
     public enum LogLevel {
         DEBUG, INFO
-    };
+    }
     
     /** Indicates whether the debug level messages should be suppressed or not. */
     private static boolean        suppress_debug = true;

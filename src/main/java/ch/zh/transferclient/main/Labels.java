@@ -17,6 +17,7 @@
 package ch.zh.transferclient.main;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -50,7 +51,7 @@ public class Labels
         }
     
     /** Map with the labels. */
-    private static final HashMap<String, String> LABELS = new HashMap<String, String>();
+    private static final HashMap<String, String> labelMap = new HashMap<>();
     
     /**
      * Returns a specific label.
@@ -60,7 +61,7 @@ public class Labels
      */
     public static String get(String identifier)
         {
-        return LABELS.get(identifier);
+        return labelMap.get(identifier);
         }
         
     /**
@@ -78,7 +79,7 @@ public class Labels
         final String language        = lang.toString().toLowerCase();
         
         InputStream  inputStream     = new FileInputStream(file_xml_labels);
-        Reader       reader          = new InputStreamReader(inputStream, "UTF-8");
+        Reader       reader          = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
         InputSource  is              = new InputSource(reader);
         is.setEncoding("UTF-8");
         
@@ -119,7 +120,7 @@ public class Labels
                     }
                 }
                 
-            LABELS.put(identifier, label);
+            labelMap.put(identifier, label);
             }
         }
     }

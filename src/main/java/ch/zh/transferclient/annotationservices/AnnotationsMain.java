@@ -71,7 +71,7 @@ public class AnnotationsMain
      * @param  args      Command-line arguments.
      * @throws Exception An exception can be thrown.
      */
-    public static void main(String[] args) throws Exception
+    public static void main(String[] args)
         {
         
         // Writing Backups

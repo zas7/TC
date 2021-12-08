@@ -36,7 +36,7 @@ public class GuiStart extends JFrame
     /**
      * Status fields of the GuiStart that can be used for informing the end user about the current status.
      */
-    public static enum StatusField {
+    public enum StatusField {
         STATUSFIELD1,
         STATUSFIELD2,
         STATUSFIELD3

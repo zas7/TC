@@ -57,7 +57,7 @@ public class Processing_Receipts_ExtractElement_NOT_ANYMORE_USED
      * @param  element      The parameter whose value we want to know.
      * @return              The value of the parameter.
      */
-    protected synchronized static String extract_element(final Gui gui, final File file_receipt, final String element)
+    protected static synchronized String extract_element(final Gui gui, final File file_receipt, final String element)
         {
         String                 status_code = "Not available";
         

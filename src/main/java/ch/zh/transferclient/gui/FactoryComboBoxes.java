@@ -49,7 +49,7 @@ public class FactoryComboBoxes
     protected static JComboBox<String> get_combobox(String[] items)
         
         {
-        JComboBox<String> cb = new JComboBox<String>(items);
+        JComboBox<String> cb = new JComboBox<>(items);
         
         cb.setFont(new Font("Sanserif", Font.PLAIN, 12)); // Keine Fettschrift in ComBox
         

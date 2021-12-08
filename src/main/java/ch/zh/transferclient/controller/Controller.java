@@ -152,7 +152,7 @@ public class Controller implements MouseListener
                     {
                     File file = this.gui.get_selectedfile_fc_folder();
                     this.gui.get_textfield_folder().setText(file.getPath());
-                    this.properties.set_folder_results(file.getPath().toString());
+                    this.properties.set_folder_results(file.getPath());
                     }
                 else if (returnVal == JFileChooser.CANCEL_OPTION)
                     {

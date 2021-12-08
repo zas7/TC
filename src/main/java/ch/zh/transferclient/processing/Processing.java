@@ -60,7 +60,7 @@ public class Processing
      * @param properties The properties to be used.
      * @param gui        The graphical user interface to be used.
      */
-    public synchronized static void process(final Properties properties, final Gui gui)
+    public static synchronized void process(final Properties properties, final Gui gui)
         
         {
         try

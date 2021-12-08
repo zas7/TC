@@ -59,7 +59,7 @@ public class Processing_SingleInput
      * @throws FileNotFoundException File cannot be found.
      * @throws IOException           IO operation fails.
      */
-    protected synchronized static void process
+    protected static synchronized void process
     /* @formatter:off */
         (
         final Properties        properties,
@@ -90,53 +90,50 @@ public class Processing_SingleInput
         // ----------------//
         // ZIP-Generierung //
         // ----------------//
-        ZipEntry                ze                  = new ZipEntry(file.getName());
-        FileOutputStream        fos                 = new FileOutputStream("stage/data_" + sedex_message_id + ".zip");
-        ZipOutputStream         zipout              = new ZipOutputStream(new BufferedOutputStream(fos));
-        
-        if (!zip_compression)
+        try (FileOutputStream fos = new FileOutputStream("stage/data_" + sedex_message_id + ".zip");
+                BufferedOutputStream bos = new BufferedOutputStream(fos);
+                ZipOutputStream zipout = new ZipOutputStream(bos))
             {
-            // Vgl. Seite 183 von Elliotte Rusty Harold:
-            // Java I/O: Tips and Techniques for Putting I/O to Work
-            zipout.setMethod(ZipEntry.STORED);
+            ZipEntry ze = new ZipEntry(file.getName());
             
-            // Zur Vermeidung des Fehlers
-            // java.util.zip.ZipException: STORED entry missing size, compressed size, or
-            // crc-32
-            // (vgl.
-            // https://stackoverflow.com/questions/1206970/how-to-create-uncompressed-zip-archive-in-java)
-            // müssen size, compressedsize und crc32 des ZipEntrys vorgängig gesetzt werden:
-            // vgl. hierzu
-            // http://jcsnippets.atspace.com/java/input-output/create-zip-file.html
+            if (!zip_compression)
+                {
+                // Vgl. Seite 183 von Elliotte Rusty Harold:
+                // Java I/O: Tips and Techniques for Putting I/O to Work
+                zipout.setMethod(ZipEntry.STORED);
+                
+                // Zur Vermeidung des Fehlers
+                // java.util.zip.ZipException: STORED entry missing size, compressed size, or
+                // crc-32
+                // (vgl.
+                // https://stackoverflow.com/questions/1206970/how-to-create-uncompressed-zip-archive-in-java)
+                // müssen size, compressedsize und crc32 des ZipEntrys vorgängig gesetzt werden:
+                // vgl. hierzu
+                // http://jcsnippets.atspace.com/java/input-output/create-zip-file.html
+                
+                ze.setSize(file.length());
+                ze.setCompressedSize(file.length());
+                ze.setTime(file.lastModified());
+                
+                CRC32 crc32 = computeCrc32(file);
+                ze.setCrc(crc32.getValue());
+                
+                // System.out.println("size="+file.length());
+                // System.out.println("crc32="+crc32.getValue());
+                }
+                
+            zipout.putNextEntry(ze);
             
-            ze.setSize(file.length());
-            ze.setCompressedSize(file.length());
-            ze.setTime(file.lastModified());
-            
-            CRC32 crc32 = computeCrc32(file);
-            ze.setCrc(crc32.getValue());
-            
-            // System.out.println("size="+file.length());
-            // System.out.println("crc32="+crc32.getValue());
+            // Schreiben des Files
+            byte[] tmp  = new byte[4 * 1024];
+            int    size = 0;
+            while ((size = fis.read(tmp)) != -1)
+                {
+                zipout.write(tmp, 0, size);
+                }
+                
+            zipout.closeEntry();
             }
-            
-        zipout.putNextEntry(ze);
-        
-        // Schreiben des Files
-        byte[] tmp  = new byte[4 * 1024];
-        int    size = 0;
-        while ((size = fis.read(tmp)) != -1)
-            {
-            zipout.write(tmp, 0, size);
-            }
-            
-        zipout.closeEntry();
-        
-        zipout.flush();
-        zipout.close();
-        fos.flush();
-        fos.close();
-        
         // Eine Kopie des ZIP-Files
         Path origin = Paths.get("stage/data_" + sedex_message_id + ".zip");
         
@@ -176,7 +173,7 @@ public class Processing_SingleInput
         Files.delete(origin);
         
         // Loeschung des Original-Datenfiles
-        file.delete();
+        Files.delete(file.toPath());
         }
         
     /**

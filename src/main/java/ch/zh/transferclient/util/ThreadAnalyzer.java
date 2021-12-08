@@ -53,7 +53,7 @@ public class ThreadAnalyzer
         
         if (ACTIVE)
             {
-            System.out.printf("%-45s %-35s %-25s %s \n", thread, thread_type, task_type, details);
+            System.out.printf("%-45s %-35s %-25s %s %n", thread, thread_type, task_type, details);
             }
         }
         
@@ -64,9 +64,9 @@ public class ThreadAnalyzer
         {
         if (ACTIVE)
             {
-            System.out.printf("-----------------------------------------------------------------------------------------------------------------------------------------\n");
-            System.out.printf("%-45s %-35s %-25s %s \n", "Thread", "Thread Type", "Task Type", "Details");
-            System.out.printf("-----------------------------------------------------------------------------------------------------------------------------------------\n");
+            System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------");
+            System.out.printf("%-45s %-35s %-25s %s %n", "Thread", "Thread Type", "Task Type", "Details");
+            System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------");
             }
         }
         

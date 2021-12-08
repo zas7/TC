@@ -30,13 +30,13 @@ public class TimeStamp
     {
     
     /** Date format for the sedex message id. */
-    private static final SimpleDateFormat SDF_FOR_SEDEX_MESSAGE_ID = new SimpleDateFormat("yyyyMMdd-HHmm-ss-SSS");
+    private final static SimpleDateFormat SDF_FOR_SEDEX_MESSAGE_ID = new SimpleDateFormat("yyyyMMdd-HHmm-ss-SSS");
     /** Date format for the sedex envelope. */
-    private static final SimpleDateFormat SDF_FOR_SEDEX_ENVELOPE   = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    private final static SimpleDateFormat SDF_FOR_SEDEX_ENVELOPE   = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     /** Date format for the log file. */
     // private static final SimpleDateFormat SDF_FOR_LOGFILE = new
     // SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
-    private static final SimpleDateFormat SDF_FOR_LOGFILE          = new SimpleDateFormat("yyyyMMdd-HHmm-ss-SSS");
+    private final static SimpleDateFormat SDF_FOR_LOGFILE          = new SimpleDateFormat("yyyyMMdd-HHmm-ss-SSS");
     
     /**
      * Constructs a TimeStamp object.

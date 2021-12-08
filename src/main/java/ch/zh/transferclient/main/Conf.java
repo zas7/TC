@@ -89,7 +89,7 @@ public class Conf
     private static final int              AUTOACTIVATION_MINUTE_FREQ  = 5;                                                                 // Default-Wert:
                                                                                                                                            // 5
     /** Configuration parameter of the auto-activation menu: points of time. */
-    public static final ArrayList<String> AUTOACTIVATION_TIMES        = new ArrayList<String>();
+    public static final ArrayList<String> AUTOACTIVATION_TIMES        = new ArrayList<>();
     
     static
         {

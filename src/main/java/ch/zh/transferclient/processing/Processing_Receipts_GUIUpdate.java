@@ -57,7 +57,7 @@ public class Processing_Receipts_GUIUpdate
      * @throws                      java.lang.reflect.InvocationTargetException Exception which can be thrown by
      *                              SwingUtilities.invokeAndWait.
      */
-    protected synchronized static void process_GUIUpdate(Gui gui, ArrayList<String> sedex_recipient_ids, Vector<Processing_Receipts_Record> RECEIPTS) throws InterruptedException, java.lang.reflect.InvocationTargetException
+    protected static synchronized void process_GUIUpdate(Gui gui, ArrayList<String> sedex_recipient_ids, Vector<Processing_Receipts_Record> RECEIPTS) throws InterruptedException, java.lang.reflect.InvocationTargetException
         {
         
         final int NUMBER_TOTAL_OF_RECEIVERS = sedex_recipient_ids.size();

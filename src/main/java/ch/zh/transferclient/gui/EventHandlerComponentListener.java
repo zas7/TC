@@ -151,16 +151,16 @@ public class EventHandlerComponentListener implements ComponentListener
     @Override
     public void componentHidden(ComponentEvent e)
         {
-        };
+        }
         
     @Override
     public void componentResized(ComponentEvent e)
         {
-        };
+        }
         
     @Override
     public void componentShown(ComponentEvent e)
         {
-        };
+        }
         
     }

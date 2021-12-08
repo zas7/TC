@@ -20,6 +20,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * The class is used to update systematically the author and version of all source files.
@@ -36,10 +37,9 @@ public class AnnotationsUpdate
      */
     private AnnotationsUpdate()
         {
-        //see also https://stackoverflow.com/questions/31409982/java-best-practice-class-with-only-static-methods
+        // see also https://stackoverflow.com/questions/31409982/java-best-practice-class-with-only-static-methods
         }
-    
-    
+        
     /**
      * Updates the author and version of all source code files.
      * 
@@ -49,9 +49,9 @@ public class AnnotationsUpdate
     protected static void update(String rootfolder)
         {
         
-        try
+        try(Stream<Path> files = Files.walk(Paths.get(rootfolder)))
             {
-            Iterator<Path> it = Files.walk(Paths.get(rootfolder)).filter(p -> (p.toString().endsWith(".java") || p.toString().endsWith("package.html") )).iterator();
+            Iterator<Path> it = files.filter(p -> (p.toString().endsWith(".java") || p.toString().endsWith("package.html") )).iterator();
             
             while (it.hasNext())
                 {
@@ -61,15 +61,15 @@ public class AnnotationsUpdate
                 // ------------------------------//
                 // Einlesen des bisherigen Files //
                 // ------------------------------//
-                BufferedReader    br    = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
-                ArrayList<String> lines = new ArrayList<String>();
+                BufferedReader    br    = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
+                ArrayList<String> lines = new ArrayList<>();
                 
                 String            line  = br.readLine();
                 while ((line != null))
                     {
                     if (file.getName().endsWith(".java"))
                         {
-                        if ((line.contains("* Copyright ")) && ((line.contains("Statistisches Amt des Kantons Zürich"))))
+                        if ((line.contains("* Copyright ")) && (line.contains("Statistisches Amt des Kantons Zürich")))
                             {
                             line = AnnotationsMain.LICENCEINFO_1FSTLINE;
                             }
