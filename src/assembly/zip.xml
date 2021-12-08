@@ -78,7 +78,7 @@
 			<destName>${project.artifactId}.jar</destName>
 		</file>
 		<file>
-			<source>${project.basedir}/main/resources/splashScreen.jpg</source>
+			<source>${project.basedir}/src/main/resources/splashScreen.jpg</source>
 			<outputDirectory>/bin</outputDirectory>
 		</file>
 	</files>
