@@ -109,7 +109,9 @@ public class Processing
                     Processing_SingleInput.process(properties, gui, file, sedex_message_id, fis);
                     
                     Logger.info("FILE PROCESSED: " + sedex_message_id + ": " + path_source.toString());
+                    
                     }
+                Files.delete(file.toPath());
                 }
             }
         catch (Exception e)

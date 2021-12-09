@@ -171,10 +171,6 @@ public class Processing_SingleInput
             
         // Loeschung des Vorlage ZIPs
         Files.delete(origin);
-        
-        // Loeschung des Original-Datenfiles
-        //Files.delete(file.toPath());
-        file.delete();
         }
         
     /**
