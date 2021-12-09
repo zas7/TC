@@ -157,7 +157,7 @@ public class Processing_Receipts_GUIUpdate
                     // --------------------------------------------------------------------------------------- //
                     // @formatter:on                                                                           //
                     
-                    if (Constants.MESSAGE_SUCCESSFULLY_TRANSMITTED.equals(STATUS_CODE))
+                    if (Constants.STATUS_CODE_MESSAGE_SUCCESSFULLY_TRANSMITTED.equals(STATUS_CODE))
                         {
                         for (int i = model_overview.getRowCount() - 1; i >= 0; i--)
                             {

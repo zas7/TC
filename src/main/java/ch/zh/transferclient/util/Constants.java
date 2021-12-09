@@ -23,6 +23,7 @@ public class Constants
     /**
      * Sedex Receipt Message Codes 
      */
-    public static final String MESSAGE_SUCCESSFULLY_TRANSMITTED = "100";
+    public static final String STATUS_CODE_MESSAGE_SUCCESSFULLY_TRANSMITTED = "100";
+    public static final String STATUS_INFO_MESSAGE_SUCCESSFULLY_TRANSMITTED = "Message successfully transmitted";
     
     }

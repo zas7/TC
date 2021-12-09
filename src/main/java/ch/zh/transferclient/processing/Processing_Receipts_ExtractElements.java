@@ -24,6 +24,7 @@ import org.w3c.dom.NodeList;
 
 import ch.zh.transferclient.gui.*;
 import ch.zh.transferclient.main.Logger;
+import ch.zh.transferclient.util.Constants;
 
 /**
  * This class is used to extract parameter values from an envelope file. The envelope files are evaluated in order to
@@ -41,19 +42,18 @@ public class Processing_Receipts_ExtractElements
      */
     private Processing_Receipts_ExtractElements()
         {
-        //see also https://stackoverflow.com/questions/31409982/java-best-practice-class-with-only-static-methods
+        // see also https://stackoverflow.com/questions/31409982/java-best-practice-class-with-only-static-methods
         }
-    
-    
+        
     /**
      * Extracts parameter values from an envelope file.
      *
-     * @param  doc          The document to be used.
-     * @param  gui          The graphical user interface to be used.
-
-     * @return              The value of the parameter.
+     * @param  doc The document to be used.
+     * @param  gui The graphical user interface to be used.
+     * 
+     * @return     The value of the parameter.
      */
-    protected static synchronized Processing_Receipts_Record extract(final Document doc,final Gui gui)
+    protected static synchronized Processing_Receipts_Record extract(final Document doc, final Gui gui)
         {
         String messageId  = "Not available";
         String statusInfo = "Not available";
@@ -73,16 +73,16 @@ public class Processing_Receipts_ExtractElements
                 // ersetzt, damit auch das alte Quittungsformat der
                 // Kantone Nidwalden und Obwalden verarbeitet werden kann.
                 if (node.getNodeName().contains("messageId"))
-                    {                    
-                    messageId   = node.getTextContent(); 
+                    {
+                    messageId = node.getTextContent();
                     }
                 if (node.getNodeName().contains("statusInfo"))
-                    {                    
-                    statusInfo  = node.getTextContent(); 
+                    {
+                    statusInfo = node.getTextContent();
                     }
                 if (node.getNodeName().contains("statusCode"))
-                    {                    
-                    statusCode  = node.getTextContent(); 
+                    {
+                    statusCode = node.getTextContent();
                     }
                 }
                 
@@ -97,12 +97,16 @@ public class Processing_Receipts_ExtractElements
                 public void run()
                     {
                     gui.get_dialog_fileprocessingerror().setvisible(e);
-                    //gui.get_dialog_receiptnotwellformed().setvisible();
+                    // gui.get_dialog_receiptnotwellformed().setvisible();
                     }
                 });
             }
-            
-        return new Processing_Receipts_Record(messageId,statusInfo,statusCode); 
+         
+        // Überschreiben von statusInfo von alten Quittungsformat
+        statusInfo = Constants.STATUS_CODE_MESSAGE_SUCCESSFULLY_TRANSMITTED.equals(statusCode)
+                ? Constants.STATUS_INFO_MESSAGE_SUCCESSFULLY_TRANSMITTED
+                : statusInfo;
+        return new Processing_Receipts_Record(messageId, statusInfo, statusCode);
         }
         
     }

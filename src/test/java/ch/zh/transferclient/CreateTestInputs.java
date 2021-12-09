@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ch.zh.transferclient.util;
+package ch.zh.transferclient;
 
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;

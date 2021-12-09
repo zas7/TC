@@ -67,7 +67,9 @@ SEDEX_SENDER_ID=4-143849-0
 # Example II of configuration:
 # SEDEX_RECIPIENT_ID=4-925020-5%OFS/BFS Corinne Straub,4-346040-2%OFS/BFS Alain Herzig,4-960533-6%OFS/BFS Oliver Zumbrunnen,4-143849-0%Support Transfer-Client
 # 
-SEDEX_RECIPIENT_ID=4-925020-5%OFS/BFS Corinne Straub,4-346040-2%OFS/BFS Alain Herzig,4-960533-6%OFS/BFS Jenny Yin,4-460754-7%OFS/BFS Mehmet Aksozen,4-031888-0%ChF/BK Clara Wyss,4-143849-0%Support Transfer-Client# SEDEX DIRECTORIES
+SEDEX_RECIPIENT_ID=4-925020-5%OFS/BFS Corinne Straub,4-346040-2%OFS/BFS Alain Herzig,4-960533-6%OFS/BFS Jenny Yin,4-460754-7%OFS/BFS Mehmet Aksozen,4-031888-0%ChF/BK Clara Wyss,4-143849-0%Support Transfer-Client
+
+# SEDEX DIRECTORIES
 # Example values (sedex adapter is running on the client):
 # SEDEX_DIR_OUTBOX   = c:/0_tfc_reliability/sedex/outbox
 # SEDEX_DIR_RECEIPTS = c:/0_tfc_reliability/sedex/receipts
