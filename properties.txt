@@ -4,7 +4,7 @@
 
 # DELAY 
 # The transfer-client is based on polling, i.e. its main functionality is achieved by executing periodically a task.
-# The parameter "delay" specifies the delay in milliseconds between the termination of one execution
+# The parameter "delay" specifies the delay in milliseconds between the termination of one execution. Minimal value is 100.
 # and the commencement of the next.
 DELAY=100
 
@@ -57,8 +57,6 @@ SEDEX_SENDER_ID=4-143849-0
 
 # SEDEX RECIPIENT ID 
 # 
-# RECIPIENTS                             SEDEX-ID         
-# 
 # It is important to note that the SEDEX-ID is followed   
 # by a label (separated from the SEDEX-ID by a % symbol). 
 # These labels are not permitted to contain commas.       
@@ -69,17 +67,15 @@ SEDEX_SENDER_ID=4-143849-0
 # Example II of configuration:
 # SEDEX_RECIPIENT_ID=4-925020-5%OFS/BFS Corinne Straub,4-346040-2%OFS/BFS Alain Herzig,4-960533-6%OFS/BFS Oliver Zumbrunnen,4-143849-0%Support Transfer-Client
 # 
-SEDEX_RECIPIENT_ID=4-925020-5%OFS/BFS Corinne Straub,4-143849-0%Support Transfer-Client,
-
-# SEDEX DIRECTORIES
+SEDEX_RECIPIENT_ID=4-925020-5%OFS/BFS Corinne Straub,4-346040-2%OFS/BFS Alain Herzig,4-960533-6%OFS/BFS Jenny Yin,4-460754-7%OFS/BFS Mehmet Aksozen,4-031888-0%ChF/BK Clara Wyss,4-143849-0%Support Transfer-Client# SEDEX DIRECTORIES
 # Example values (sedex adapter is running on the client):
 # SEDEX_DIR_OUTBOX   = c:/0_tfc_reliability/sedex/outbox
 # SEDEX_DIR_RECEIPTS = c:/0_tfc_reliability/sedex/receipts
 # Example values (sedex adapter is running on a server):
 # SEDEX_DIR_OUTBOX   = //10.73.147.218/interface$/outbox
 # SEDEX_DIR_RECEIPTS = //10.73.147.218/interface$/receipts
-SEDEX_DIR_OUTBOX=c:/temp/interface$/outbox
-SEDEX_DIR_RECEIPTS=c:/temp/interface$/receipts
+SEDEX_DIR_OUTBOX=c:/sedexclient/interface/outbox
+SEDEX_DIR_RECEIPTS=c:/sedexclient/interface/receipts
 
 
 # ################################ #
@@ -88,7 +84,7 @@ SEDEX_DIR_RECEIPTS=c:/temp/interface$/receipts
 
 # FOLDER RESULTS 
 # Example value: E:/results
-FOLDER_RESULTS=C:/temp/interface$
+FOLDER_RESULTS=C:/transferclient_dir_results
 
 # TARGET TIME
 # Valid values: 9:00, 9:05, 9:10, ..., 12:45, 12:50, 12:55, 13:00 
