@@ -14,16 +14,23 @@
  * limitations under the License.
  */
 package ch.zh.transferclient.util;
-
+/**
+ * 
+ * Constants of the system
+ *
+ */
 public class Constants
     {
     private Constants()
         {
         }
     /**
-     * Sedex Receipt Message Codes 
+     * Sedex Receipt Message Status Code Success 
      */
     public static final String STATUS_CODE_MESSAGE_SUCCESSFULLY_TRANSMITTED = "100";
+    /**
+     * Sedex Receipt Message Status Info Success 
+     */
     public static final String STATUS_INFO_MESSAGE_SUCCESSFULLY_TRANSMITTED = "Message successfully transmitted";
     
     }

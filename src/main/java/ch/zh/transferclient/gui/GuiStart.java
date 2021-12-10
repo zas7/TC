@@ -37,10 +37,13 @@ public class GuiStart extends JFrame
      * Status fields of the GuiStart that can be used for informing the end user about the current status.
      */
     public enum StatusField {
+        /** Statusfield 1 */
         STATUSFIELD1,
+        /** Statusfield 2 */
         STATUSFIELD2,
+        /** Statusfield 3 */
         STATUSFIELD3
-        }
+    }
     
     /** A unique serial version identifier. */
     private static final long serialVersionUID = 1L;
@@ -52,30 +55,40 @@ public class GuiStart extends JFrame
     public static final int   HEIGHT           = 180;
     
     /** The status field 1. */
-    private final JLabel statusfield1;
+    private final JLabel      statusfield1;
     
     /** The status field 2. */
-    private final JLabel statusfield2;
+    private final JLabel      statusfield2;
     
     /** The status field 3. */
-    private final JLabel statusfield3;
+    private final JLabel      statusfield3;
     
     /**
      * Updates the status field.
+     * 
      * @param field The field to update.
-     * @param text The new text.
+     * @param text  The new text.
      */
-    public void update_statusfield(StatusField field,String text)
+    public void update_statusfield(StatusField field, String text)
         {
         JLabel targetfield;
-        if (field==StatusField.STATUSFIELD1)        {targetfield=this.statusfield1;}
-        else if (field==StatusField.STATUSFIELD2)   {targetfield=this.statusfield2;}
-        else                                        {targetfield=this.statusfield3;}
-        
+        if (field == StatusField.STATUSFIELD1)
+            {
+            targetfield = this.statusfield1;
+            }
+        else if (field == StatusField.STATUSFIELD2)
+            {
+            targetfield = this.statusfield2;
+            }
+        else
+            {
+            targetfield = this.statusfield3;
+            }
+            
         targetfield.setText(text);
         targetfield.repaint();
         }
-    
+        
     /**
      * Constructs a GuiStart object.
      */
@@ -109,8 +122,8 @@ public class GuiStart extends JFrame
         // --------------//
         // Inneres Panel //
         // --------------//
-        JPanel innerpanel = new JPanel();
-        FlowLayout flowlayout = new FlowLayout(FlowLayout.LEFT,5,5);
+        JPanel     innerpanel = new JPanel();
+        FlowLayout flowlayout = new FlowLayout(FlowLayout.LEFT, 5, 5);
         innerpanel.setLayout(flowlayout);
         
         // ---------------------------------------------//
@@ -119,33 +132,32 @@ public class GuiStart extends JFrame
         JLabel bild = new JLabel(Conf.IMAGE_ICON_LOGO);
         innerpanel.add(bild);
         
-        
         // ----------------------------------------------//
         // Inneres Panel: Rechte Seite: Text hinzufuegen //
         // ----------------------------------------------//
-        //Panel fuer Text1 und Text2
-        JPanel textpanel = new JPanel();
-        GridLayout gridlayout = new GridLayout(4,1); //Es sind 4 Texte untereinander.
+        // Panel fuer Text1 und Text2
+        JPanel     textpanel  = new JPanel();
+        GridLayout gridlayout = new GridLayout(4, 1); // Es sind 4 Texte untereinander.
         textpanel.setLayout(gridlayout);
         
-        //Titelzeile
-        JLabel titel = new JLabel("Initialization");
-        Font font_titel = new Font("Sans Serif", Font.BOLD, 16);
+        // Titelzeile
+        JLabel titel      = new JLabel("Initialization");
+        Font   font_titel = new Font("Sans Serif", Font.BOLD, 16);
         titel.setFont(font_titel);
         textpanel.add(titel);
         
-        //Erste Textzeile: Statusfeld 1
+        // Erste Textzeile: Statusfeld 1
         Font font_status = new Font("Sans Serif", Font.PLAIN, 12);
-        this.statusfield1 = new JLabel("");        
+        this.statusfield1 = new JLabel("");
         this.statusfield1.setFont(font_status);
         textpanel.add(this.statusfield1);
         
-        //Zweite Textzeile: Statusfeld 2
+        // Zweite Textzeile: Statusfeld 2
         this.statusfield2 = new JLabel("");
         this.statusfield2.setFont(font_status);
         textpanel.add(this.statusfield2);
         
-        //Dritte Textzeile: Statusfeld 3
+        // Dritte Textzeile: Statusfeld 3
         this.statusfield3 = new JLabel("");
         this.statusfield3.setFont(font_status);
         textpanel.add(this.statusfield3);

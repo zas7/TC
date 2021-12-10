@@ -34,7 +34,10 @@ public class Logger
     
     /** Available log levels. */
     public enum LogLevel {
-        DEBUG, INFO
+        /** DEBUG */
+        DEBUG,
+        /** INFO */
+        INFO
     }
     
     /** Indicates whether the debug level messages should be suppressed or not. */
@@ -48,9 +51,9 @@ public class Logger
      */
     private Logger()
         {
-        //see also https://stackoverflow.com/questions/31409982/java-best-practice-class-with-only-static-methods
+        // see also https://stackoverflow.com/questions/31409982/java-best-practice-class-with-only-static-methods
         }
-    
+        
     /**
      * Initializes the logger.
      *

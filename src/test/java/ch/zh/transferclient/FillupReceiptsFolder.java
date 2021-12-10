@@ -36,8 +36,8 @@ import java.util.LinkedList;
 public class FillupReceiptsFolder
     
     {
-    static boolean toggle1 = false;
-    static boolean toggle2 = false;
+    static boolean toggling = false;
+    static boolean toggle   = false;
     
     private FillupReceiptsFolder()
         {
@@ -49,7 +49,7 @@ public class FillupReceiptsFolder
      * 
      * @param  args        Command-line arguments. 
      *                     1: sedexOutputDirectory 
-     *                     2: state with the values 
+     *                     2: state 
      *                        s: successful: All receipt messages have state successful 
      *                        u: unsuccessful: All receipt messages have state unsuccessful 
      *                        a: alternate: Half of receipt messages have state successful. The other half is
@@ -60,31 +60,19 @@ public class FillupReceiptsFolder
     
     private static void setToggle(String state)
         {
-        switch (state) {
-        case "s":
-            toggle1 = true;
-            toggle2 = true;
-            break;
-        case "u":
-            toggle1 = false;
-            toggle2 = false;
-            break;
-        case "a":
-            toggle1 = true;
-            toggle2 = false;
-            break;
-        default:
-            throw new IllegalArgumentException("Parameters: sedexOutputDirectory, state");
+        toggling = "a".equalsIgnoreCase(state);
+        toggle   = !"u".equalsIgnoreCase(state);
         }
         
+    private static boolean getToggleValue()
+        {
+        if (!toggling)
+            {
+            return toggle;
+            }
+        toggle = !toggle;
+        return !toggle;
         }
-    
-    private static boolean getToggle() {
-    boolean result = toggle1;
-    toggle1 = toggle2;
-    toggle2 = result;
-    return result;
-    }
         
     public static void main(String[] args) throws IOException
         
@@ -107,7 +95,7 @@ public class FillupReceiptsFolder
         Files.list(sedexOutputDir)
         .filter(f -> Files.isRegularFile(f) && f.getFileName().toString().startsWith("envl_"))
         .map(f -> f.getFileName().toString().replace("envl_", "").replace(".xml", ""))
-        .forEach(n -> writeFile(sedexReceiptDir, n, getToggle()));
+        .forEach(n -> writeFile(sedexReceiptDir, n, getToggleValue()));
         // @formatter:on
         }
         

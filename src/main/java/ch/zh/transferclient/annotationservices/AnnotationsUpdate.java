@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2020 Statistisches Amt des Kantons Zürich
+ * Copyright 2018-2021 Statistisches Amt des Kantons Zürich
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
