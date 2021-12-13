@@ -38,10 +38,10 @@
 				<version>3.2.0</version>
 				<configuration>
 					<archive>
+						<addMavenDescriptor>false</addMavenDescriptor>
 						<manifest>
 							<mainClass>ch.zh.transferclient.main.Main</mainClass>
-							<addDefaultImplementationEntries>true
-							</addDefaultImplementationEntries>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
 						</manifest>
 						<manifestEntries>
 							<Build-Time>${maven.build.timestamp}</Build-Time>

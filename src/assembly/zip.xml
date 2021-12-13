@@ -54,6 +54,7 @@
 		<fileSet>
 			<directory>${project.basedir}</directory>
 			<includes>
+				<include>LICENSE.txt</include>
 				<include>properties.txt</include>
 				<include>TransferClient_Start.bat</include>
 			</includes>
