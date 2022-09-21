@@ -1,0 +1,28 @@
+.shared_windows_runners:
+  tags:
+  - shared-windows
+  - windows
+  - windows-1809
+
+stages:
+  - build
+  - test
+
+before_script:
+ - Set-Variable -Name "time" -Value (date -Format "%H:%m")
+ - echo ${time}
+ - echo "started by ${GITLAB_USER_NAME}"
+
+build:
+  extends:
+  - .shared_windows_runners
+  stage: build
+  script:
+  - echo "running scripts in the build job"
+
+test:
+  extends:
+  - .shared_windows_runners
+  stage: test
+  script:
+  - echo "running scripts in the test job"
